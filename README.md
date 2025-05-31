@@ -30,6 +30,7 @@ This was the idea: You have a file with client information that needs to be proc
 
 Sounds simple, but here is the thing. RPG came after the world of assembler; programmers were used to assembly code. So, when a new higher-level language was needed, they decided, Ok, let's make a better assembly. Thinking this way, the syntax of the new language was similar to assembly; you have the operation on the left and the operand on the right, all in a column fashion. This is known as **columnar** RPG and is the legacy RPG syntax. Most of the RPG source code is still written in columnar RPG and the new developments are done (or should be done) in modern **free** RPG, which uses a syntax more common to modern developers that is similar to the C language.
 
+# Environment
 
 ## OPM
 
@@ -45,4 +46,17 @@ This environment was called **OPM (Original Program Model)**. As you may tell, t
 
 ## ILE
 
+As complexity increased, a way to tackle it was needed. Modularization was the chosen way. 
+
+Take that monolithic 10 thousand line program and divide it into logical units of execution called **functions**, which have their own context local variables that are created when the function executes and deleted after it finishes (pops up from the stack).
+
+In this way, a monolithic program can be divided into a series of functions. Furthermore, these functions can be grouped together into their own object called **MODULE** so that a program **PGM** can be formed of one or more modules, which in turn are formed from one or more functions that are logically related. 
+
+This mindset helped encapsulate business logic into some containerized context, which helps a lot when dealing with complexity on large code base systems. 
+
+Some of that business logic may be needed by other programs. So, since we already have it compartmentalized on this **MODULE** object, let's make it available to be used by other programs so we have a central logic and don't do copy-paste the same code on every single program (this is something still seen in the wild). That's when the idea of the service program **SRVPGM** began. 
+
+A service program is like a context of context. It has a series of **MODULES** with their corresponding functions that can be used by other programs, hence the name **service** program. 
+
+Service programs and modules are the backbone of the modern development environment called **Integrated Language Environment (ILE)**. This is the environment that we'll be using in this guide.
 
