@@ -26,7 +26,9 @@ Ok, but, what is RPG? It is a [procedural/imperative](https://en.wikipedia.org/w
 
 RPG stands for Report Program Generator. It was crated for the business world. 
 
-This was the idea: You have a file with client information that needs to be processed. Define the file at the top of the program and have it automatically load each register one at a time into global variables that match the column names of the file, do some operation or calculation with them, update the same file or another file of the system with the new information and close all the opened files pointers, finish the program, and return the control to the operating system.
+This was the idea: You have a file with client information that needs to be processed. Define the file at the top of the program and have it automatically load each register one at a time into global variables that match the column names of the file, do some operation or calculation with them based on **indicators** turned on or off, update the same file or another file of the system with the new information and close all the opened files pointers, finish the program, and return the control to the operating system.
+
+> This logic was known as the **RPG Cycle**. This idea comes from the [FARGO (programming language)](https://en.wikipedia.org/wiki/FARGO_(programming_language)) and the [Tabulating machine](https://en.wikipedia.org/wiki/Tabulating_machine)
 
 Sounds simple, but here is the thing. RPG came after the world of assembler; programmers were used to assembly code. So, when a new higher-level language was needed, they decided, Ok, let's make a better assembly. Thinking this way, the syntax of the new language was similar to assembly; you have the operation on the left and the operand on the right, all in a column fashion. This is known as **columnar** RPG and is the legacy RPG syntax. Most of the RPG source code is still written in columnar RPG and the new developments are done (or should be done) in modern **free** RPG, which uses a syntax more common to modern developers that is similar to the C language.
 
@@ -59,4 +61,8 @@ Some of that business logic may be needed by other programs. So, since we alread
 A service program is like a context of context. It has a series of **MODULES** with their corresponding functions that can be used by other programs, hence the name **service** program. 
 
 Service programs and modules are the backbone of the modern development environment called **Integrated Language Environment (ILE)**. This is the environment that we'll be using in this guide.
+
+## Structure of a RPG program
+
+The columnar RPG is composed of a series of **specifications**, **pages** or **contexts** which are roughly: Compilation, Files, Data, Calculations and Output
 
