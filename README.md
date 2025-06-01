@@ -64,5 +64,14 @@ Service programs and modules are the backbone of the modern development environm
 
 ## Structure of a RPG program
 
-The columnar RPG is composed of a series of **specifications**, **pages** or **contexts** which are roughly: Compilation, Files, Data, Calculations and Output
+The columnar (legacy) RPG is composed of a series of **specifications**, **pages** or **contexts** which are roughly: 
 
+- Compilation: Input parameters to be used by the compiler.
+- Files: Listed files being written to, read from or updated.
+- Data: Contains global character and numeric variables like data structures, arrays, etc. 
+- Calculations: Operations or executable instructions to be performed.
+- Output: Report generation or I/O file operations.
+
+A modern RPG, from now on **free** rpg
+
+> **Free** means that you are not bound by columns anymore like the old columnar rpg used to
