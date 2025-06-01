@@ -84,3 +84,20 @@ A modern RPG, from now on **Free** RPG, does not have these clear specification 
 
 > Yes, you can use SQL statements along with RPG and move data between RPG host variables and SQL. Really cool stuff.
 
+## Operating system
+
+The capabilities of the RPG languages were tightly coupled to the machine architecture and the operating system. 
+
+The **columnar** RPG II was used in the context of the [System/36](https://en.wikipedia.org/wiki/IBM_System/36). RPG III for the [System/38](https://en.wikipedia.org/wiki/IBM_System/38) and the [AS/400](https://en.wikipedia.org/wiki/IBM_AS/400).
+
+The operating system of the **AS/400** was the **OS/400** which evolved into the [IBM i](https://en.wikipedia.org/wiki/IBM_i) and along came RPG IV or ILE RPG which is the **Free RPG** that we've seen.
+
+For this guide we'll be using **Free** RPG on the **IBM I** operating system which is running on a [Power System](https://en.wikipedia.org/wiki/IBM_Power_Systems) over the internet called [PUB400](https://www.pub400.com/)
+
+# The tools
+
+Since this guide is intended to bring modern developers to IBM, we'll be using modern tools.
+
+We need a way to edit code, compile it and test it... in other words, a pipeline. Here is a guide on a [modern IBM I Pipeline](https://github.com/kraudy/IBM-i-pipeline) to get you up and running.
+
+# Chapters
