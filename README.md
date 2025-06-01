@@ -6,11 +6,18 @@ This repo is intended to be a comprehensive introduction to the language. Some k
 
 You can check my two repos for some context: [IBM i operating system](https://github.com/kraudy/ibmi_os) and [IBM-i-pipeline](https://github.com/kraudy/IBM-i-pipeline)
 
-As our source material, we will be using the incredible red book [Who Knew You Could Do That with RPG IV? Modern RPG for the Modern Programmer](https://www.redbooks.ibm.com/redbooks/pdfs/sg245402.pdf) 
 
 # Table of Contents
 
 - [Context](#context)
+- [Intro](#intro)
+- [Environment](#environment)
+  - [OPM](#opm)
+  - [ILE](#ile)
+  - [Structure of a RPG program](#structure-of-a-rpg-program)
+  - [Operating system](#operating-system)
+- [The tools](#the-tools)
+- [Chapters](#chapters)
 
 # Context
 
@@ -96,8 +103,7 @@ For this guide we'll be using **Free** RPG on the **IBM I** operating system whi
 
 # The tools
 
-Since this guide is intended to bring modern developers to IBM, we'll be using modern tools.
-
-We need a way to edit code, compile it and test it... in other words, a pipeline. Here is a guide on a [modern IBM I Pipeline](https://github.com/kraudy/IBM-i-pipeline) to get you up and running.
+Since this guide is intended to bring modern developers to IBM, we'll be using WSL Ubuntu and VsCode. Here is a guide on a [modern IBM I Pipeline](https://github.com/kraudy/IBM-i-pipeline) to get you up and running.
 
 # Chapters
+
