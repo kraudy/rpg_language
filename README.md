@@ -64,14 +64,23 @@ Service programs and modules are the backbone of the modern development environm
 
 ## Structure of a RPG program
 
-The columnar (legacy) RPG is composed of a series of **specifications**, **pages** or **contexts** which are roughly: 
+The **columnar** (legacy) RPG is composed of a series of **specifications**, **pages** or **contexts** which are roughly: 
 
 - Compilation: Input parameters to be used by the compiler.
 - Files: Listed files being written to, read from or updated.
-- Data: Contains global character and numeric variables like data structures, arrays, etc. 
-- Calculations: Operations or executable instructions to be performed.
+- Data: Contains global character and numeric variables like data structures, arrays, ints, chars, etc. 
+- Calculations: Operations or executable instructions to be performed. Usually grouped in **subroutines**
 - Output: Report generation or I/O file operations.
 
-A modern RPG, from now on **free** rpg
+A modern RPG, from now on **Free** RPG, does not have these clear specification separations. 
 
-> **Free** means that you are not bound by columns anymore like the old columnar rpg used to
+> **Free** means that you are not bound by columns anymore like the old columnar RPG used to be
+
+- Compilation: Kept with the `Ctl-opt` keyword. 
+- File: Kept, kinda. Files can be declared globally or inside a procedure, but it is usual to use embedded SQL to perform file operations on modern **SQLRPGLE** programs.
+- Data: Variables can still be declared globally or locally to procedures. 
+- Calculation: No longer defined and is replaced by procedure driven logic along with local variables. 
+- Output: Very rarely used by hybrid RPG programs (half columnar and half free).
+
+> Yes, you can use SQL statements along with RPG and move data between RPG host variables and SQL. Really cool stuff.
+
