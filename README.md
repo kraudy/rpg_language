@@ -107,3 +107,11 @@ Since this guide is intended to bring modern developers to IBM, we'll be using W
 
 # Chapters
 
+To have each chapter as an IBM Project that can be deployed to PUB400 individually just run the `setup_workspace.sh` script like this
+
+```bash
+chmod +x ./setup_workspace.sh # Give execution permission
+./setup_workspace.sh # Execute
+```
+
+- [Chaper 1](./chapter_1/chapter_1.md)
