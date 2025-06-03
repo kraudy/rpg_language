@@ -22,3 +22,9 @@ Let's go line by line of the simple hello world program.
 ## Compilation
 
 ## Run it
+
+do the display from a procedure `do_hello` 
+
+put the `do_hello` on a module and bunrn it on the pgm
+
+put the `do_hello` on a module and then on a srvpgm

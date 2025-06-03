@@ -103,9 +103,14 @@ For this guide we'll be using **Free** RPG on the **IBM I** operating system whi
 
 # The tools
 
-Since this guide is intended to bring modern developers to IBM, we'll be using WSL Ubuntu and VsCode. Here is a guide on a [modern IBM I Pipeline](https://github.com/kraudy/IBM-i-pipeline) to get you up and running.
+Since this guide is intended to bring modern developers to IBM, we'll be using WSL Ubuntu and VsCode. 
+
+Here is a good tutorial by **Seiden Group** on [Getting Started with VS Code for IBM i: A Video Series](https://www.seidengroup.com/getting-started-with-vs-code-for-ibm-i-a-video-series/) to get you up and running.
+
+Also check this out: A [modern IBM I Pipeline](https://github.com/kraudy/IBM-i-pipeline).
 
 # Chapters
+
 
 To have each chapter as an IBM Project that can be deployed to PUB400 individually just run the `setup_workspace.sh` script like this
 
