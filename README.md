@@ -109,6 +109,47 @@ Here is a good tutorial by **Seiden Group** on [Getting Started with VS Code for
 
 Also check this out: A [modern IBM I Pipeline](https://github.com/kraudy/IBM-i-pipeline).
 
+# Set up
+
+Connect to PUB400 with the Code4i extension
+
+<div style="text-align: center;">
+  <img src="./images/connect_pub400.png" alt="connect pub400" style="display: inline-block;">
+</div>
+
+The project should be already initialized (color green) in the project explorer. This is done with the `iproj.json` file. You can delete it to check.
+
+<div style="text-align: center;">
+  <img src="./images/initialized_project.png" alt="set deploy" style="display: inline-block;">
+</div>
+
+Even though the project is initialized, the following configuration steps are needed.
+
+Go to your project and set the deploy location
+
+<div style="text-align: center;">
+  <img src="./images/set_deploy.png" alt="set deploy" style="display: inline-block;">
+</div>
+
+Do the **Launch action setup** (This will let us compile the program from VsCode)
+
+<div style="text-align: center;">
+  <img src="./images/launch_actions.png" alt="launch action" style="display: inline-block;">
+</div>
+
+Select **RPG** and **ok**
+
+<div style="text-align: center;">
+  <img src="./images/select_action.png" alt="select action" style="display: inline-block;">
+</div>
+
+Set up your PUB400 current library (It will be used to store the compiled object)
+
+<div style="text-align: center;">
+  <img src="./images/setup_curlib.png" alt="setup curlib" style="display: inline-block;">
+</div>
+
+
 # Chapters
 
 
