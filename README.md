@@ -17,6 +17,7 @@ You can check my two repos for some context: [IBM i operating system](https://gi
   - [Structure of a RPG program](#structure-of-a-rpg-program)
   - [Operating system](#operating-system)
 - [The tools](#the-tools)
+- [Set up](#set-up)
 - [Chapters](#chapters)
 
 # Context

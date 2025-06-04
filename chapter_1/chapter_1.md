@@ -21,15 +21,77 @@ Let's go line by line of the simple hello world program.
 
 ## Compilation
 
-At this you should have to the [project setup]() 
+At this point you should have done the [project setup](../README.md#set-up) and be connected to PUB400.
 
-After that go to the [simple hello world](./ch1_qrpglesrc/hello1.pgm.rpgle) file, hit **Ctrl + e** and select **Create RPGLE Program**
+Go to the [simple hello world](./ch1_qrpglesrc/hello1.pgm.rpgle) file, hit **Ctrl + e** and select **Create RPGLE Program**. This is the straigth up way of compiling a bind RPG program.
 
 <div style="text-align: center;">
   <img src="../images/chapter_1/compile_it.png" alt="compile it" style="display: inline-block;">
 </div>
 
+Select **compare** as deploy method.
+
+<div style="text-align: center;">
+  <img src="../images/chapter_1/deploy_method.png" alt="deploy method" style="display: inline-block;">
+</div>
+
+It should compile normally and show and output like this
+
+<div style="text-align: center;">
+  <img src="../images/chapter_1/compiled_hello1.png" alt="compiled hello" style="display: inline-block;">
+</div>
+
+Go to your library with `wrklibpdm YourLibrary`
+
+<div style="text-align: center;">
+  <img src="../images/chapter_1/wrklibpdm.png" alt="wrklibpdm" style="display: inline-block;">
+</div>
+
+There should be the compiled **Hello1** program
+
+<div style="text-align: center;">
+  <img src="../images/chapter_1/show_hello1.png" alt="show hello" style="display: inline-block;">
+</div>
+
 ## Run it
+
+To run it do **OP 16** on the object
+
+<div style="text-align: center;">
+  <img src="../images/chapter_1/op16_hello1.png" alt="op16 on hello" style="display: inline-block;">
+</div>
+
+Here is the output
+
+<div style="text-align: center;">
+  <img src="../images/chapter_1/output_hello1.png" alt="output hello" style="display: inline-block;">
+</div>
+
+You can also do `dspjoblog` + `F10` + `Shift F6` to see the output
+
+<div style="text-align: center;">
+  <img src="../images/chapter_1/dspjoblog.png" alt="dspjoblog" style="display: inline-block;">
+</div>
+
+<div style="text-align: center;">
+  <img src="../images/chapter_1/show_joblog.png" alt="show_joblog" style="display: inline-block;">
+</div>
+
+Look at that, when you do **OP 16** on **PDM** the os actually executes the command `CALL PGM(ROBKRAUDY2/HELLO1)`. Lets try it.
+
+<div style="text-align: center;">
+  <img src="../images/chapter_1/call_hello1.png" alt="call_hello1" style="display: inline-block;">
+</div>
+
+The same output
+
+<div style="text-align: center;">
+  <img src="../images/chapter_1/output_hello1.png" alt="output hello" style="display: inline-block;">
+</div>
+
+## Compiling from Module
+
+The previous compilation actually creates an object **Module** and deletes it when the **Pgm** object is created. So, a **Pgm** is compose of at least 1 module. Lets do it manually.
 
 do the display from a procedure `do_hello` 
 
@@ -38,3 +100,12 @@ put the `do_hello` on a module and bunrn it on the pgm
 put the `do_hello` on a module and then on a srvpgm
 
 an **int**, 0 for non-error and >0 for any error like the Linux style (this is a preference of mine because you can just do an **if** check on a procedure call to check if an error occurred)
+
+
+## More on compilation
+
+. But there are other ways to accomplish this
+
+CRTPGMMOD
+
+CRTPGM
