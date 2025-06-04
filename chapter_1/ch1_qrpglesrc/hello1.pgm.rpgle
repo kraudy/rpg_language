@@ -5,11 +5,11 @@
 Ctl-opt DftActGrp(*no) main(main);
 
 Dcl-proc main;
-  Dcl-pi *n int;
+  Dcl-pi *n;
   end-pi;
 
   dsply 'Hello world!';
 
-  return 0;
+  return;
 
-End-proc
+End-proc;
