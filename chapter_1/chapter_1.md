@@ -23,24 +23,33 @@ Let's go line by line of the simple hello world program.
 
 Go to your project and set the deploy location
 
-![alt text](../images/chapter_1/image.png)
+<div style="text-align: center;">
+  <img src="../images/chapter_1/image.png" alt="set deply" style="display: inline-block;">
+</div>
 
 Do the **Launch action setup**
 
-![alt text](../images/chapter_1/image-1.png)
+<div style="text-align: center;">
+  <img src="../images/chapter_1/launch_actions.png" alt="launch action" style="display: inline-block;">
+</div>
 
 Select **RPG** and **ok**
 
-![alt text](../images/chapter_1/image-2.png)
+<div style="text-align: center;">
+  <img src="../images/chapter_1/image-2.png" alt="select action" style="display: inline-block;">
+</div>
 
-Set up your pub400 library
+Set up your PUB400 current library (It will be used to store the compiled object)
 
-![alt text](../images/chapter_1/image-4.png)
+<div style="text-align: center;">
+  <img src="../images/chapter_1/image-4.png" alt="setup curlib" style="display: inline-block;">
+</div>
 
 After that go to the [simple hello world](./ch1_qrpglesrc/hello1.pgm.rpgle), hit **Ctrl + e** and select **Create RPGLE Program**
 
-![alt text](../images/chapter_1/image-3.png)
-
+<div style="text-align: center;">
+  <img src="../images/chapter_1/image-3.png" alt="setup curlib" style="display: inline-block;">
+</div>
 
 
 ## Run it
