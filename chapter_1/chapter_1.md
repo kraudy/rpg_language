@@ -89,9 +89,53 @@ The same output
   <img src="../images/chapter_1/output_hello1.png" alt="output hello" style="display: inline-block;">
 </div>
 
+In the same way, when compilation is done directly from VsCode, the OS also executes a command to compile the source code.
+
+<div style="text-align: center;">
+  <img src="../images/chapter_1/crtbndrpg.png" alt="crtbndrpg" style="display: inline-block;">
+</div>
+
+Similar to the `CALL`, it can be executed manually like this 
+```
+CRTBNDRPG PGM(ROBKRAUDY2/hello1) 
+SRCSTMF('/home/ROBKRAUDY/builds/rpg_language/chapter_1/ch1_qrpglesrc/hello1.pgm.rpgle') OPTION(*EVENTF) DBGVIEW(*SOURCE) TGTCCSID(*JOB)
+```
+
+Paste it and press **F4** if alignment is needed for the path
+
+<div style="text-align: center;">
+  <img src="../images/chapter_1/exec_crtbndrpg.png" alt="crtbndrpg" style="display: inline-block;">
+</div>
+
+Program created
+
+<div style="text-align: center;">
+  <img src="../images/chapter_1/program_created.png" alt="program_created" style="display: inline-block;">
+</div>
+
+Remember the compilation output that VsCode showed with the **Ctrl + e** compilation? Well, that is called a **spool file**. To check the spool of the previous compilation do a `wrksplf` 
+
+> A Spool File is like a report that was intended to be printed and read by programmes in the old times. Hence the format.
+
+<div style="text-align: center;">
+  <img src="../images/chapter_1/wrksplf.png" alt="wrksplf" style="display: inline-block;">
+</div>
+
+Do **OP 5** on the hello1 spool file
+
+<div style="text-align: center;">
+  <img src="../images/chapter_1/op5_hello_spool.png" alt="op5_hello_spool" style="display: inline-block;">
+</div>
+
+Magic! Here is the same output that the VsCode compilation gave us
+
+<div style="text-align: center;">
+  <img src="../images/chapter_1/show_hello1_spool.png" alt="op5_hello_spool" style="display: inline-block;">
+</div>
+
 ## Compiling from Module
 
-The previous compilation actually creates an object **Module** and deletes it when the **Pgm** object is created. So, a **Pgm** is compose of at least 1 module. Lets do it manually.
+The previous compilation actually creates an object **Module** and deletes it when the **Pgm** object is created. So, a **Pgm** is compose of at least 1 module. Lets do it manually with some more IBM I commands.
 
 do the display from a procedure `do_hello` 
 
