@@ -1,10 +1,10 @@
 **Free
 ///
-// Moder RPG Hello world
+// RPG Module with only 1 procedure, no main.
 ///
-Ctl-opt main(main);
+Ctl-opt NoMain;
 
-Dcl-proc main;
+Dcl-proc hello;
   Dcl-pi *n;
   end-pi;
 

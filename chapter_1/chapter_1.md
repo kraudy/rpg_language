@@ -9,7 +9,7 @@ Let's go line by line of the simple hello world program.
 
 [First line](./ch1_qrpglesrc/hello1.pgm.rpgle#L1) of this code is `**Free`, which tells the RPG compiler that the source code is fully free (not half columnar and half free. Fully modern code for winners). 
 
-[Line 5](./ch1_qrpglesrc/hello1.pgm.rpgle#L5) `Ctl-opt DftActGrp(*no) main(main)` is the compilation specification for this program defined by the `Ctl-opt` keyword. `DftActGrp(*no)` means that this program should not be **activated** in the default **activation** group which is where the legacy **OPM** programs were **activated** and `main(main)` defines which procedure is the main procedure of this program, this is similar to **C** `main` function. Defining a main procedure in the compilation specifications excludes the use of the famous **RPG Cycle**. If you want to see a modern example that still uses the **RPG Cycle** check [hello2](./ch1_qrpglesrc/hello2.pgm.rpgle)
+[Line 5](./ch1_qrpglesrc/hello1.pgm.rpgle#L5) `Ctl-opt DftActGrp(*no) main(main)` is the compilation specification for this program defined by the `Ctl-opt` keyword. `DftActGrp(*no)` means that this program should not be **activated** in the default **activation** group which is where the legacy **OPM** programs were **activated** and `main(main)` defines which procedure is the main procedure of this program, this is similar to **C** `main` function. Defining a main procedure in the compilation specifications excludes the use of the famous **RPG Cycle**. If you want to see a modern example that still uses the **RPG Cycle** check [hello2](./ch1_qrpglesrc/hello1.cycle.pgm.rpgle)
 
 [Line 7](./ch1_qrpglesrc/hello1.pgm.rpgle#L7) defines the procedure **main** with the keyword `Dcl-proc` and `end-proc` along with an interface `Dcl-pi *n int end-pi` that specifies what parameters this procedure accepts and returns. In this case it receives nothing and returns nothing. 
 
@@ -100,7 +100,7 @@ Expand the command input space doing a `call qcmd`
   <img src="../images/chapter_1/call_qcmd.png" alt="crcall_qcmdtbndrpg" style="display: inline-block;">
 </div>
 
-Similar to the `CALL`, compilation can be executed manually. The full qualified path `/home/YourUser/builds/rpg_language/chapter_1/ch1_qrpglesrc/hello1.module.rpgle` may be too long, so, change the working directory with `CHGCURDIR DIR('/home/YourUser/builds/rpg_language')`.
+Similar to the `CALL`, compilation can be executed manually. The full qualified path `/home/YourUser/builds/rpg_language/chapter_1/ch1_qrpglesrc/hello1.main.module.rpgle` may be too long, so, change the working directory with `CHGCURDIR DIR('/home/YourUser/builds/rpg_language')`.
 <div style="text-align: center;">
   <img src="../images/chapter_1/chgcurdir.png" alt="chgcurdir" style="display: inline-block;">
 </div>
@@ -147,7 +147,7 @@ Magic! Here is the same output that the VsCode compilation gave us
   <img src="../images/chapter_1/show_hello1_spool.png" alt="show_hello1_spool" style="display: inline-block;">
 </div>
 
-## Compiling from Module
+## Entry Module
 
 The previous compilation actually creates an object **Module** and deletes it when the **Pgm** object is created. So, a **Pgm** is compose of at least 1 module that has a **program entry**. Lets do it manually with some more IBM I commands.
 
@@ -161,9 +161,10 @@ Note that the module by itself does not have an activation group. This is becaus
   <img src="../images/chapter_1/no_actgrp_module.png" alt="no_actgrp_module" style="display: inline-block;">
 </div>
 
+Compiling a module with a **program entry**
 ```
 CRTRPGMOD MODULE(*CURLIB/HELLO1) 
-SRCSTMF('chapter_1/ch1_qrpglesrc/hello1.module.rpgle') 
+SRCSTMF('chapter_1/ch1_qrpglesrc/hello1.main.module.rpgle') 
 OPTION(*EVENTF) DBGVIEW(*SOURCE) TGTCCSID(*JOB)
 ```
 
@@ -174,14 +175,51 @@ CRTPGM PGM(*CURLIB/HELLO1) MODULE(*CURLIB/HELLO1)
 ENTMOD(*CURLIB/HELLO1) DETAIL(*FULL)
 ```
 
-> ENTMOD(*CURLIB/HELLO1) means that the program activation group is taken from the module type (RPG, CL, etc) and is set to 'QILE'
+- `ENTMOD(*CURLIB/HELLO1)` indicates which module has an **entry point** or **main procedure**, also, the program activation group is taken from the module type (RPG, CL, etc) and is set to `QILE`
+- `DETAIL(*FULL)` gives the full details of the program compilation in the spool.`wrksplf` + **OP 5** shows all the system's procedures referenced by the compiled object
 
 Do **OP 5** on the HELLO1 program, there is the activation group
 <div style="text-align: center;">
-  <img src="../images/chapter_1/actgrp_qile.png" alt="op5_hello_spool" style="display: inline-block;">
+  <img src="../images/chapter_1/actgrp_qile.png" alt="actgrp_qile" style="display: inline-block;">
 </div>
 
-Press enter and there is the compiled module inside the program
+Press `enter` 2 times and there it is, the compiled module which is inside the program
+<div style="text-align: center;">
+  <img src="../images/chapter_1/module_inside.png" alt="module_inside" style="display: inline-block;">
+</div>
+
+> The `HELLO1` module can be deleted and the `HELLO1` program would execute normally since it has a copy of the compiled module inside.
+
+## NoMain Module
+
+A module usually has a procedure that is the **entry point** of execution, also called **the main procedure** and all the other procedures are **no main** which means, they can't be executed directly but can be part of the execution stack initiated by the **main procedure**. But, there are also modules that don't have a **main procedure** or a **entry point**, these are the [**NoMain Modules**](./ch1_qrpglesrc/hello1.nomain.module.rpglerpgle) and can't be used directly to create a program object.
+
+Compile it the same way as the **main module**
+```
+CRTRPGMOD MODULE(*CURLIB/HELLO1) 
+SRCSTMF('chapter_1/ch1_qrpglesrc/hello1.nomain.module.rpgle') 
+OPTION(*EVENTF) DBGVIEW(*SOURCE) TGTCCSID(*JOB)
+```
+
+Now, try creating the program from the module
+```
+CRTPGM PGM(*CURLIB/HELLO1) MODULE(*CURLIB/HELLO1)
+ENTMOD(*CURLIB/HELLO1) DETAIL(*FULL)
+```
+
+Uoh, an error
+<div style="text-align: center;">
+  <img src="../images/chapter_1/nomain_error.png" alt="nomain_error" style="display: inline-block;">
+</div>
+
+`dspjoblog` + **F10** shows the error
+<div style="text-align: center;">
+  <img src="../images/chapter_1/no_entry_point.png" alt="no_entry_point" style="display: inline-block;">
+</div>
+
+Makes sense since we are telling the OS with `ENTMOD(*CURLIB/HELLO1)` that the module has an **entry point** and it does not.
+
+
 
 do the display from a procedure `do_hello` 
 
