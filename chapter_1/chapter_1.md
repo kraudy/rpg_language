@@ -1,4 +1,4 @@
-# Chapter one
+# Chapter one: Programs and Modules
 
 
 ## Hello world
@@ -95,10 +95,24 @@ In the same way, when compilation is done directly from VsCode, the OS also exec
   <img src="../images/chapter_1/crtbndrpg.png" alt="crtbndrpg" style="display: inline-block;">
 </div>
 
-Similar to the `CALL`, it can be executed manually like this 
+Expand the command input space doing a `call qcmd`
+<div style="text-align: center;">
+  <img src="../images/chapter_1/call_qcmd.png" alt="crcall_qcmdtbndrpg" style="display: inline-block;">
+</div>
+
+Similar to the `CALL`, compilation can be executed manually. The full qualified path `/home/YourUser/builds/rpg_language/chapter_1/ch1_qrpglesrc/hello1.module.rpgle` may be too long, so, change the working directory with `CHGCURDIR DIR('/home/YourUser/builds/rpg_language')`.
+<div style="text-align: center;">
+  <img src="../images/chapter_1/chgcurdir.png" alt="chgcurdir" style="display: inline-block;">
+</div>
+
+Make sure you have the rigth cur lib with `chgcurlib` which will be placed in the `*CURLIB` parameter.
+<div style="text-align: center;">
+  <img src="../images/chapter_1/chgcurlib.png" alt="chgcurlib" style="display: inline-block;">
+</div>
+
 ```
-CRTBNDRPG PGM(ROBKRAUDY2/hello1) 
-SRCSTMF('/home/ROBKRAUDY/builds/rpg_language/chapter_1/ch1_qrpglesrc/hello1.pgm.rpgle') OPTION(*EVENTF) DBGVIEW(*SOURCE) TGTCCSID(*JOB)
+CRTBNDRPG PGM(*CURLIB/hello1) 
+SRCSTMF('chapter_1/ch1_qrpglesrc/hello1.pgm.rpgle') OPTION(*EVENTF) DBGVIEW(*SOURCE) TGTCCSID(*JOB)
 ```
 
 Paste it and press **F4** if alignment is needed for the path
@@ -115,7 +129,7 @@ Program created
 
 Remember the compilation output that VsCode showed with the **Ctrl + e** compilation? Well, that is called a **spool file**. To check the spool of the previous compilation do a `wrksplf` 
 
-> A Spool File is like a report that was intended to be printed and read by programmes in the old times. Hence the format.
+> A Spool File is like a report that was intended to be printed and read by programmers in the old times. Hence the format.
 
 <div style="text-align: center;">
   <img src="../images/chapter_1/wrksplf.png" alt="wrksplf" style="display: inline-block;">
@@ -130,12 +144,44 @@ Do **OP 5** on the hello1 spool file
 Magic! Here is the same output that the VsCode compilation gave us
 
 <div style="text-align: center;">
-  <img src="../images/chapter_1/show_hello1_spool.png" alt="op5_hello_spool" style="display: inline-block;">
+  <img src="../images/chapter_1/show_hello1_spool.png" alt="show_hello1_spool" style="display: inline-block;">
 </div>
 
 ## Compiling from Module
 
-The previous compilation actually creates an object **Module** and deletes it when the **Pgm** object is created. So, a **Pgm** is compose of at least 1 module. Lets do it manually with some more IBM I commands.
+The previous compilation actually creates an object **Module** and deletes it when the **Pgm** object is created. So, a **Pgm** is compose of at least 1 module that has a **program entry**. Lets do it manually with some more IBM I commands.
+
+> **Program entry** means that it is the point where the OS can transfer execution control to the program.
+
+Note that the module by itself does not have an activation group. This is because a module is not **activated** directly or *loaded* like a program. 
+
+> More about program execution here: [IBM i: Program Execution](https://github.com/kraudy/ibmi_os?tab=readme-ov-file#program-execution)
+
+<div style="text-align: center;">
+  <img src="../images/chapter_1/no_actgrp_module.png" alt="no_actgrp_module" style="display: inline-block;">
+</div>
+
+```
+CRTRPGMOD MODULE(*CURLIB/HELLO1) 
+SRCSTMF('chapter_1/ch1_qrpglesrc/hello1.module.rpgle') 
+OPTION(*EVENTF) DBGVIEW(*SOURCE) TGTCCSID(*JOB)
+```
+
+Now, lets create the program from the module
+
+```
+CRTPGM PGM(*CURLIB/HELLO1) MODULE(*CURLIB/HELLO1)
+ENTMOD(*CURLIB/HELLO1) DETAIL(*FULL)
+```
+
+> ENTMOD(*CURLIB/HELLO1) means that the program activation group is taken from the module type (RPG, CL, etc) and is set to 'QILE'
+
+Do **OP 5** on the HELLO1 program, there is the activation group
+<div style="text-align: center;">
+  <img src="../images/chapter_1/actgrp_qile.png" alt="op5_hello_spool" style="display: inline-block;">
+</div>
+
+Press enter and there is the compiled module inside the program
 
 do the display from a procedure `do_hello` 
 

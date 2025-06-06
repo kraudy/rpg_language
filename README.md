@@ -161,4 +161,4 @@ chmod +x ./setup_workspace.sh # Give execution permission
 ./setup_workspace.sh # Execute
 ```
 
-- [Chaper 1](./chapter_1/chapter_1.md)
+- [Chaper 1: Programs and Modules](./chapter_1/chapter_1.md)
