@@ -5,11 +5,29 @@
 
 Remember that RPG is a procedural language and its modern syntax is similar to C but it does not use brackets `{}`. Our first program is a [simple hello world](./ch1_qrpglesrc/hello1.pgm.rpgle).
 
+```js
+**Free
+///
+// Moder RPG Hello world
+///
+Ctl-opt DftActGrp(*no) main(main);
+
+Dcl-proc main;
+  Dcl-pi *n;
+  end-pi;
+
+  dsply 'Hello world!';
+
+  return;
+
+End-proc;
+```
+
 Let's go line by line of the simple hello world program. 
 
 [First line](./ch1_qrpglesrc/hello1.pgm.rpgle#L1) of this code is `**Free`, which tells the RPG compiler that the source code is fully free (not half columnar and half free. Fully modern code for winners). 
 
-[Line 5](./ch1_qrpglesrc/hello1.pgm.rpgle#L5) `Ctl-opt DftActGrp(*no) main(main)` is the compilation specification for this program defined by the `Ctl-opt` keyword. `DftActGrp(*no)` means that this program should not be **activated** in the default **activation** group which is where the legacy **OPM** programs were **activated** and `main(main)` defines which procedure is the main procedure of this program, this is similar to **C** `main` function. Defining a main procedure in the compilation specifications excludes the use of the famous **RPG Cycle**. If you want to see a modern example that still uses the **RPG Cycle** check [hello2](./ch1_qrpglesrc/hello1.cycle.pgm.rpgle)
+[Line 5](./ch1_qrpglesrc/hello1.pgm.rpgle#L5) `Ctl-opt DftActGrp(*no) main(main)` is the compilation specification for this program defined by the `Ctl-opt` keyword. `DftActGrp(*no)` means that this program should not be **activated** or **loaded** in the default **activation group** or **job memory space** which is where the legacy **OPM** programs were **activated** and `main(main)` defines which procedure is the main **entry point** of this program, this is similar to **C** `main` function. Defining a main procedure like this in the compilation specifications excludes the use of the famous **RPG Cycle**. If you want to see a modern example that still uses the **RPG Cycle** check [hello1.cycle](./ch1_qrpglesrc/hello1.cycle.pgm.rpgle)
 
 [Line 7](./ch1_qrpglesrc/hello1.pgm.rpgle#L7) defines the procedure **main** with the keyword `Dcl-proc` and `end-proc` along with an interface `Dcl-pi *n int end-pi` that specifies what parameters this procedure accepts and returns. In this case it receives nothing and returns nothing. 
 
@@ -114,7 +132,8 @@ Make sure you have the rigth cur lib with `chgcurlib` which will be placed in th
 
 ```js
 CRTBNDRPG PGM(*CURLIB/hello1) 
-SRCSTMF('chapter_1/ch1_qrpglesrc/hello1.pgm.rpgle') OPTION(*EVENTF) DBGVIEW(*SOURCE) TGTCCSID(*JOB)
+SRCSTMF('chapter_1/ch1_qrpglesrc/hello1.pgm.rpgle') 
+OPTION(*EVENTF) DBGVIEW(*SOURCE) TGTCCSID(*JOB)
 ```
 
 Paste it and press **F4** if alignment is needed for the path
@@ -151,31 +170,55 @@ Magic! Here is the same output that the VsCode compilation gave us
 
 ## Entry Module
 
-The previous compilation actually creates an object **Module** and deletes it when the **Pgm** object is created. So, a **Pgm** is compose of at least 1 module that has a **program entry**. Lets do it manually with some more IBM I commands.
+The previous compilation actually creates an object **Module** and deletes it when the **Pgm** object is created. **OP 5** + `enter` + `enter` on the previous `hello1` program will show the module was created in the **QTEMP** library, which is a temporary library where everthing is deleted when you log off.
 
-> **Program entry** means that it is the point where the OS can transfer execution control to the program.
+<div style="text-align: center;">
+  <img src="../images/chapter_1/hidden_module.png" alt="hidden_module" style="display: inline-block;">
+</div>
+
+So, a **Pgm** is compose of at least 1 module that has a **program entry**. Lets do it manually with some more IBM I **CL (Control Language)** commands.
+
+> **Program entry** or **entry point** means that it is the point where the OS can transfer execution control to the program.
 
 Note that the module by itself does not have an activation group. This is because a module is not **activated** directly or *loaded* like a program. 
 
 > More about program execution here: [IBM i: Program Execution](https://github.com/kraudy/ibmi_os?tab=readme-ov-file#program-execution)
 
+Compiling the [simple hello world](./ch1_qrpglesrc/hello1.pgm.rpgle) as a module with a **program entry**
+
+```js
+CRTRPGMOD MODULE(*CURLIB/HELLO1) 
+SRCSTMF('chapter_1/ch1_qrpglesrc/hello1.pgm.rpgle') 
+OPTION(*EVENTF) DBGVIEW(*SOURCE) TGTCCSID(*JOB)
+```
+
 <div style="text-align: center;">
   <img src="../images/chapter_1/no_actgrp_module.png" alt="no_actgrp_module" style="display: inline-block;">
 </div>
 
-Compiling a module with a **program entry**
+Compilation failed, this makes sence since an **Module** can't be executed directly by the OS, so, you can't specify an **activation group** `DftActGrp` `ActGrp` for the module, that is done for the program.
+
+Now, removing the activation specifications and compiling again with [simple hello module](./ch1_qrpglesrc/hello1.main.module.rpgle.rpgle)
 ```js
 CRTRPGMOD MODULE(*CURLIB/HELLO1) 
 SRCSTMF('chapter_1/ch1_qrpglesrc/hello1.main.module.rpgle') 
 OPTION(*EVENTF) DBGVIEW(*SOURCE) TGTCCSID(*JOB)
 ```
 
-Now, lets create the program from the module
+<div style="text-align: center;">
+  <img src="../images/chapter_1/compiled_entry_module.png" alt="compiled_entry_module" style="display: inline-block;">
+</div>
+
+Success, lets create the program from the compiled module and specify that it is also the module that has the **entry point**
 
 ```js
 CRTPGM PGM(*CURLIB/HELLO1) MODULE(*CURLIB/HELLO1)
 ENTMOD(*CURLIB/HELLO1) DETAIL(*FULL)
 ```
+
+<div style="text-align: center;">
+  <img src="../images/chapter_1/program_from_entrymodule.png" alt="program_from_entrymodule" style="display: inline-block;">
+</div>
 
 - `ENTMOD(*CURLIB/HELLO1)` indicates which module has an **entry point** or **main procedure**, also, the program activation group is taken from the module type (RPG, CL, etc) and is set to `QILE`
 - `DETAIL(*FULL)` gives the full details of the program compilation in the spool.`wrksplf` + **OP 5** shows all the system's procedures referenced by the compiled object
@@ -185,7 +228,7 @@ Do **OP 5** on the HELLO1 program, there is the activation group
   <img src="../images/chapter_1/actgrp_qile.png" alt="actgrp_qile" style="display: inline-block;">
 </div>
 
-Press `enter` 2 times and there it is, the compiled module which is inside the program
+Press `enter` + `enter` times and there it is, the compiled module which is inside the program and is not in **QTEMP**, is in our library.
 <div style="text-align: center;">
   <img src="../images/chapter_1/module_inside.png" alt="module_inside" style="display: inline-block;">
 </div>
@@ -194,7 +237,13 @@ Press `enter` 2 times and there it is, the compiled module which is inside the p
 
 ## NoMain Module
 
-A module usually has a procedure that is the **entry point** of execution, also called **the main procedure** and all the other procedures are **no main** which means, they can't be executed directly but can be part of the execution stack initiated by the **main procedure**. But, there are also modules that don't have a **main procedure** or a **entry point**, these are the [**NoMain Modules**](./ch1_qrpglesrc/hello1.nomain.module.rpglerpgle) and can't be used directly to create a program object.
+A module usually has a procedure that is the **entry point** of execution, also called **the main procedure** and all the other procedures are **no main** which means, they can't be executed directly but can be part of the execution stack initiated by the **main procedure**. 
+
+There are also modules that don't have a **main procedure** or an **entry point**, these are the [**NoMain Modules**](./ch1_qrpglesrc/hello1.nomain.module.rpglerpgle) and can't be used directly to create a program object.
+
+Modules are the base for the modern ILE procedure driven modular approach. A program can have 1 or more modules but only one of them is the **entry module** with an **entry poin**. 
+
+The bad thing of creating programs like this is that the compiled modules is kept inside the program, so, if you change the module's logic, the module need to be re-compiled and every program that uses it needs to be re-compiled too. For that reason, there is something called **Service Programs** but more on that later. Ok, moving along.
 
 Compile it the same way as the **main module**
 ```js
