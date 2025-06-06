@@ -1,11 +1,9 @@
 **Free
 ///
-// RPG Module with only 1 procedure, which is also the main
+// RPG Module with only 1 procedure, which is also the main.
+// No prototype for hello.
 ///
 Ctl-opt main(main);
-
-Dcl-pr hello;
-End-pr;
 
 Dcl-proc main;
   Dcl-pi *n;

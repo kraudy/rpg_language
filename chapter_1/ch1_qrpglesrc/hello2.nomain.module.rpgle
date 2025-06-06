@@ -4,7 +4,7 @@
 ///
 Ctl-opt NoMain;
 
-Dcl-proc hello;
+Dcl-proc hello export;
   Dcl-pi *n;
   end-pi;
 

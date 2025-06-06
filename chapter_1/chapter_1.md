@@ -41,7 +41,9 @@ It should compile normally and show and output like this
   <img src="../images/chapter_1/compiled_hello1.png" alt="compiled hello" style="display: inline-block;">
 </div>
 
-Go to your library with `wrklibpdm YourLibrary`
+Log into PUB400 and go to your library with `wrklibpdm YourLibrary` + **OP 12**. 
+
+>More about [IBM I navigation here](https://github.com/kraudy/ibmi_os?tab=readme-ov-file#facing-the-ibm-i)
 
 <div style="text-align: center;">
   <img src="../images/chapter_1/wrklibpdm.png" alt="wrklibpdm" style="display: inline-block;">
@@ -110,7 +112,7 @@ Make sure you have the rigth cur lib with `chgcurlib` which will be placed in th
   <img src="../images/chapter_1/chgcurlib.png" alt="chgcurlib" style="display: inline-block;">
 </div>
 
-```
+```js
 CRTBNDRPG PGM(*CURLIB/hello1) 
 SRCSTMF('chapter_1/ch1_qrpglesrc/hello1.pgm.rpgle') OPTION(*EVENTF) DBGVIEW(*SOURCE) TGTCCSID(*JOB)
 ```
@@ -162,7 +164,7 @@ Note that the module by itself does not have an activation group. This is becaus
 </div>
 
 Compiling a module with a **program entry**
-```
+```js
 CRTRPGMOD MODULE(*CURLIB/HELLO1) 
 SRCSTMF('chapter_1/ch1_qrpglesrc/hello1.main.module.rpgle') 
 OPTION(*EVENTF) DBGVIEW(*SOURCE) TGTCCSID(*JOB)
@@ -170,7 +172,7 @@ OPTION(*EVENTF) DBGVIEW(*SOURCE) TGTCCSID(*JOB)
 
 Now, lets create the program from the module
 
-```
+```js
 CRTPGM PGM(*CURLIB/HELLO1) MODULE(*CURLIB/HELLO1)
 ENTMOD(*CURLIB/HELLO1) DETAIL(*FULL)
 ```
@@ -195,14 +197,14 @@ Press `enter` 2 times and there it is, the compiled module which is inside the p
 A module usually has a procedure that is the **entry point** of execution, also called **the main procedure** and all the other procedures are **no main** which means, they can't be executed directly but can be part of the execution stack initiated by the **main procedure**. But, there are also modules that don't have a **main procedure** or a **entry point**, these are the [**NoMain Modules**](./ch1_qrpglesrc/hello1.nomain.module.rpglerpgle) and can't be used directly to create a program object.
 
 Compile it the same way as the **main module**
-```
+```js
 CRTRPGMOD MODULE(*CURLIB/HELLO1) 
 SRCSTMF('chapter_1/ch1_qrpglesrc/hello1.nomain.module.rpgle') 
 OPTION(*EVENTF) DBGVIEW(*SOURCE) TGTCCSID(*JOB)
 ```
 
 Now, try creating the program from the module
-```
+```js
 CRTPGM PGM(*CURLIB/HELLO1) MODULE(*CURLIB/HELLO1)
 ENTMOD(*CURLIB/HELLO1) DETAIL(*FULL)
 ```
@@ -219,7 +221,76 @@ Uoh, an error
 
 Makes sense since we are telling the OS with `ENTMOD(*CURLIB/HELLO1)` that the module has an **entry point** and it does not.
 
+Lets make some changes to the modules and compile them again
 
+```js
+CRTRPGMOD MODULE(*CURLIB/HELLO2) 
+SRCSTMF('chapter_1/ch1_qrpglesrc/hello2.main.noproto.module.rpgle') 
+OPTION(*EVENTF) DBGVIEW(*SOURCE) TGTCCSID(*JOB)
+```
+
+This should be an error since we are calling the procedure `hello()` and it is not defined inside the module, the compiler raises a not defined exception
+
+<div style="text-align: center;">
+  <img src="../images/chapter_1/hello_not_defined.png" alt="hello_not_defined" style="display: inline-block;">
+</div>
+
+We need to tell the compiler that this procedure is not in the same module and describe the interface to call it. For that, we need the procedure **prototype**. 
+
+The `hello` procedure of [hello2.nomain.module.rpgle](./ch1_qrpglesrc/hello2.nomain.module.rpgle) is very simple, it takes no parameters and also returns none. So the prototypes should be like this.
+
+```js
+Dcl-pr hello extproc;
+End-pr;
+```
+
+Try again with the prototype.
+```js
+CRTRPGMOD MODULE(*CURLIB/HELLO2) 
+SRCSTMF('chapter_1/ch1_qrpglesrc/hello2.main.module.rpgle') 
+OPTION(*EVENTF) DBGVIEW(*SOURCE) TGTCCSID(*JOB)
+```
+
+<div style="text-align: center;">
+  <img src="../images/chapter_1/compiled_with_proto.png" alt="compiled_with_proto" style="display: inline-block;">
+</div>
+
+
+Nice! it compiled. Now lets try compiling the nomain module
+
+```js
+CRTRPGMOD MODULE(*CURLIB/HELLO2NENT) 
+SRCSTMF('chapter_1/ch1_qrpglesrc/hello2.nomain.module.rpgle') 
+OPTION(*EVENTF) DBGVIEW(*SOURCE) TGTCCSID(*JOB)
+```
+
+<div style="text-align: center;">
+  <img src="../images/chapter_1/compiled_nomain.png" alt="compiled_nomain" style="display: inline-block;">
+</div>
+
+<div style="text-align: center;">
+  <img src="../images/chapter_1/show_two_hello_modules.png" alt="show_two_hello_modules" style="display: inline-block;">
+</div>
+
+There we have them both!. Here is an important thing, noticed the [**export**](./ch1_qrpglesrc/hello2.nomain.module.rpgle#L7) next to the `hello` procdure? Well, that tells the compiler that this procedure must be exposed to be accesed from outside the module and it will be match agains the `hello` prototype we defined [**in the entry module**](./ch1_qrpglesrc/hello2.main.module.rpgle#L7). Do **OP 5** + `enter` + `enter` on the `HELLO2NENT` module to see the exported procedures.
+
+<div style="text-align: center;">
+  <img src="../images/chapter_1/exported_procedures.png" alt="exported_procedures" style="display: inline-block;">
+</div>
+
+You can't do `CALL` on any of these objects because they are of type **Module**, try `CALL PGM(*CURLIB/HELLO2)`. 
+
+Create the executable program similar to how we did before but now with the two modules.
+
+```js
+CRTPGM PGM(*CURLIB/HELLO2) MODULE(*CURLIB/HELLO2 *CURLIB/HELLO2NENT)
+ENTMOD(*CURLIB/HELLO2) DETAIL(*FULL)
+```
+<div style="text-align: center;">
+  <img src="../images/chapter_1/program_from_modules.png" alt="program_from_modules" style="display: inline-block;">
+</div>
+
+Now, do the `CALL PGM(*CURLIB/HELLO2)` and you should see the hello world.
 
 do the display from a procedure `do_hello` 
 
