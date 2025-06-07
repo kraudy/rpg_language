@@ -132,6 +132,7 @@ Make sure you have the rigth cur lib with `chgcurlib` which will be placed in th
   <img src="../images/chapter_1/chgcurlib.png" alt="chgcurlib" style="display: inline-block;">
 </div>
 
+Before compiling make sure the source code is uploaded from your machine to PUB400 IFS using **Ctrl + shift + e**
 ```js
 CRTBNDRPG PGM(*CURLIB/hello1) 
 SRCSTMF('chapter_1/ch1_qrpglesrc/hello1.pgm.rpgle') 
@@ -178,11 +179,9 @@ The previous compilation actually creates an object **Module** and deletes it wh
   <img src="../images/chapter_1/hidden_module.png" alt="hidden_module" style="display: inline-block;">
 </div>
 
-So, a **Pgm** is compose of at least 1 module that has a **program entry**. Lets do it manually with some more IBM I **CL (Control Language)** commands.
+So, a **Pgm** is compose of at least 1 module that has a **program entry**. Lets create the program *manually* with some more IBM I **CL (Control Language)** commands.
 
 > **Program entry** or **entry point** means that it is the point where the OS can transfer execution control to the program.
-
-Note that the module by itself does not have an activation group. This is because a module is not **activated** directly or *loaded* like a program. 
 
 > More about program execution here: [IBM i: Program Execution](https://github.com/kraudy/ibmi_os?tab=readme-ov-file#program-execution)
 
@@ -198,9 +197,9 @@ OPTION(*EVENTF) DBGVIEW(*SOURCE) TGTCCSID(*JOB)
   <img src="../images/chapter_1/no_actgrp_module.png" alt="no_actgrp_module" style="display: inline-block;">
 </div>
 
-Compilation failed, this makes sence since an **Module** can't be executed directly by the OS, so, you can't specify an **activation group** `DftActGrp` `ActGrp` for the module, that is done for the program.
+Compilation failed, this makes sence since a **Module** can't be executed directly by the OS, so, you can't specify an **activation group** `DftActGrp` `ActGrp` for the module, that is done for the program.
 
-Now, removing the activation specifications and compiling again with [simple hello module](./ch1_qrpglesrc/hello1.main.module.rpgle.rpgle)
+Now, removing the activation specifications and compiling the module again with source [simple hello module](./ch1_qrpglesrc/hello1.main.module.rpgle.rpgle)
 ```js
 CRTRPGMOD MODULE(*CURLIB/HELLO1) 
 SRCSTMF('chapter_1/ch1_qrpglesrc/hello1.main.module.rpgle') 
@@ -223,14 +222,14 @@ ENTMOD(*CURLIB/HELLO1) DETAIL(*FULL)
 </div>
 
 - `ENTMOD(*CURLIB/HELLO1)` indicates which module has an **entry point** or **main procedure**, also, the program activation group is taken from the module type (RPG, CL, etc) and is set to `QILE`
-- `DETAIL(*FULL)` gives the full details of the program compilation in the spool.`wrksplf` + **OP 5** shows all the system's procedures referenced by the compiled object
+- `DETAIL(*FULL)` gives the full details of the program compilation in the spool. `wrksplf` + **OP 5** shows all the system's procedures referenced by the compiled object
 
-Do **OP 5** on the HELLO1 program, there is the activation group
+Do **OP 5** on the `HELLO1` program. There it is, the activation group *QILE*
 <div style="text-align: center;">
   <img src="../images/chapter_1/actgrp_qile.png" alt="actgrp_qile" style="display: inline-block;">
 </div>
 
-Press `enter` + `enter` times and there it is, the compiled module which is inside the program and is not in **QTEMP**, is in our library.
+Press `enter` + `enter` to see the compiled module which is inside the program and not taken from **QTEMP** at compilation, rather, from our library.
 <div style="text-align: center;">
   <img src="../images/chapter_1/module_inside.png" alt="module_inside" style="display: inline-block;">
 </div>
@@ -239,22 +238,22 @@ Press `enter` + `enter` times and there it is, the compiled module which is insi
 
 ## NoMain Module
 
-A module usually has a procedure that is the **entry point** of execution, also called **the main procedure** and all the other procedures are **no main** which means, they can't be executed directly but can be part of the execution stack initiated by the **main procedure**. 
+A module usually has a procedure that is the **entry point** of execution, also called **the main procedure** and all the other procedures are **no main**, which means, those procedures can't be executed directly but can be part of the execution stack initiated by the **main procedure**. 
 
-There are also modules that don't have a **main procedure** or an **entry point**, these are the [**NoMain Modules**](./ch1_qrpglesrc/hello1.nomain.module.rpglerpgle) and can't be used directly to create a program object.
+There are also modules that don't have a **main procedure** or an **entry point**, these are the **NoMain Modules** and can't be used directly to create a program object. Check [Hello nomain module](./ch1_qrpglesrc/hello1.nomain.module.rpgle)
 
 Modules are the base for the modern ILE procedure driven modular approach. A program can have 1 or more modules but only one of them is the **entry module** with an **entry poin**. 
 
-The bad thing of creating programs like this is that the compiled modules is kept inside the program, so, if you change the module's logic, the module need to be re-compiled and every program that uses it needs to be re-compiled too. For that reason, there is something called **Service Programs** but more on that later. Ok, moving along.
+The bad thing of creating programs this way is that the compiled modules is kept inside the program, so, if you change the module's logic, the module needs to be re-compiled and every program that uses it needs to be re-compiled too... that's annoying. For that reason, there is something called **Service Programs** but more on that later. Moving along.
 
-Compile it the same way as the **main module**
+Compile this **nomain module** the same way as the **main module**
 ```js
 CRTRPGMOD MODULE(*CURLIB/HELLO1) 
 SRCSTMF('chapter_1/ch1_qrpglesrc/hello1.nomain.module.rpgle') 
 OPTION(*EVENTF) DBGVIEW(*SOURCE) TGTCCSID(*JOB)
 ```
 
-Now, try creating the program from the module
+It compiled with no problems, now try creating the program from this **nomain module** like before
 ```js
 CRTPGM PGM(*CURLIB/HELLO1) MODULE(*CURLIB/HELLO1)
 ENTMOD(*CURLIB/HELLO1) DETAIL(*FULL)
@@ -270,9 +269,11 @@ Uoh, an error
   <img src="../images/chapter_1/no_entry_point.png" alt="no_entry_point" style="display: inline-block;">
 </div>
 
-Makes sense since we are telling the OS with `ENTMOD(*CURLIB/HELLO1)` that the module has an **entry point** and it does not.
+A programs is intended to be executed, for that, it needs an **entry point** where execution begins. With parameter `ENTMOD(*CURLIB/HELLO1)`, we are telling the OS that the module has an **entry point** and it does not. The error makes sense.
 
-Lets make some changes to the modules and compile them again
+Lets make some changes, create an **entry module** [Hello 2 entry module](./ch1_qrpglesrc/hello2.main.noproto.module.rpgle) that will call the `hello` procedure from the **nomain module** [Hello 2 nomain module](./ch1_qrpglesrc/hello2.nomain.module.rpgle)
+
+Compile the hello entry module.
 
 ```js
 CRTRPGMOD MODULE(*CURLIB/HELLO2) 
@@ -280,22 +281,22 @@ SRCSTMF('chapter_1/ch1_qrpglesrc/hello2.main.noproto.module.rpgle')
 OPTION(*EVENTF) DBGVIEW(*SOURCE) TGTCCSID(*JOB)
 ```
 
-This should be an error since we are calling the procedure `hello()` and it is not defined inside the module, the compiler raises a not defined exception
+An error, we are calling the procedure `hello()` at [Hello entry module line 12](./ch1_qrpglesrc/hello2.main.noproto.module.rpgle#L12) and it is not defined inside the module, the compiler raises a not defined exception.
 
 <div style="text-align: center;">
   <img src="../images/chapter_1/hello_not_defined.png" alt="hello_not_defined" style="display: inline-block;">
 </div>
 
-We need to tell the compiler that this procedure is not in the same module and describe the interface to call it. For that, we need the procedure **prototype**. 
+We need to tell the compiler that this procedure is not in the same module and describe the interface to call it. For that, we need the procedure's **prototype**. 
 
-The `hello` procedure of [hello2.nomain.module.rpgle](./ch1_qrpglesrc/hello2.nomain.module.rpgle) is very simple, it takes no parameters and also returns none. So the prototypes should be like this.
+The `hello` procedure of [Hello 2 nomain module](./ch1_qrpglesrc/hello2.nomain.module.rpgle#7) is very simple, it takes no parameters and also returns none. So the prototype should be like this.
 
 ```js
 Dcl-pr hello extproc;
 End-pr;
 ```
 
-Try again with the prototype.
+Try again with the [Hello 2 entry module with prototype](./ch1_qrpglesrc/hello2.main.module.rpgle).
 ```js
 CRTRPGMOD MODULE(*CURLIB/HELLO2) 
 SRCSTMF('chapter_1/ch1_qrpglesrc/hello2.main.module.rpgle') 
@@ -307,7 +308,7 @@ OPTION(*EVENTF) DBGVIEW(*SOURCE) TGTCCSID(*JOB)
 </div>
 
 
-Nice! it compiled. Now lets try compiling the nomain module
+Good, the **entry module** compiled with no more symbol error. Now, lets try compiling the nomain module
 
 ```js
 CRTRPGMOD MODULE(*CURLIB/HELLO2NENT) 
@@ -319,11 +320,14 @@ OPTION(*EVENTF) DBGVIEW(*SOURCE) TGTCCSID(*JOB)
   <img src="../images/chapter_1/compiled_nomain.png" alt="compiled_nomain" style="display: inline-block;">
 </div>
 
+Compilation is ok so far.
 <div style="text-align: center;">
   <img src="../images/chapter_1/show_two_hello_modules.png" alt="show_two_hello_modules" style="display: inline-block;">
 </div>
 
-There we have them both!. Here is an important thing, noticed the [**export**](./ch1_qrpglesrc/hello2.nomain.module.rpgle#L7) next to the `hello` procdure? Well, that tells the compiler that this procedure must be exposed to be accesed from outside the module and it will be match agains the `hello` prototype we defined [**in the entry module**](./ch1_qrpglesrc/hello2.main.module.rpgle#L7). Do **OP 5** + `enter` + `enter` on the `HELLO2NENT` module to see the exported procedures.
+MAKE PGM WITH THIS NO EXPORT TO SHOUW THE SYMBOL SEARCH ERROR
+
+There we have them both. Here is an important thing, noticed the [**export**](./ch1_qrpglesrc/hello2.nomain.module.rpgle#L7) next to the `hello` procdure? Well, that tells the compiler that this procedure must be exposed to be accesed from outside the module and it will be match agains the `hello` prototype we defined [**in the entry module**](./ch1_qrpglesrc/hello2.main.module.rpgle#L7). Do **OP 5** + `enter` + `enter` on the `HELLO2NENT` module to see the exported procedures.
 
 <div style="text-align: center;">
   <img src="../images/chapter_1/exported_procedures.png" alt="exported_procedures" style="display: inline-block;">
