@@ -341,7 +341,7 @@ The OS searches for the symbol (even on system modules) but cannt find it. Why?
   <img src="../images/chapter_1/symol_search.png" alt="symol_search" style="display: inline-block;">
 </div>
 
-If you do **OP 5** on the `HELLO2NENT` module and hit `enter` + `enter`. We can see that the `hello` procedure is not in the export list, that means that it is not exposed by the module on it's **exported** symbol list so when the compiler does the binding it can not find the symbol `hello` from the **entry module** and an error occurs. 
+If you do **OP 5** on the `HELLO2NENT` module and hit `enter` + `enter`. We can see that the `hello` procedure is not in the export list, that means that it is not exposed by the module on it's **exported** symbol table; when the compiler does the binding it can not find the symbol `hello` from the **entry module** and an error occurs. 
 
 <div style="text-align: center;">
   <img src="../images/chapter_1/no_symbols_exported.png" alt="no_symbols_exported" style="display: inline-block;">
@@ -373,19 +373,8 @@ ENTMOD(*CURLIB/HELLO2) DETAIL(*FULL)
 
 Finally! do the `CALL PGM(*CURLIB/HELLO2)` and you should see the hello world.
 
-do the display from a procedure `do_hello` 
+## Another NoMain Module
 
-put the `do_hello` on a module and bunrn it on the pgm
-
-put the `do_hello` on a module and then on a srvpgm
-
-an **int**, 0 for non-error and >0 for any error like the Linux style (this is a preference of mine because you can just do an **if** check on a procedure call to check if an error occurred)
+As we've already seen, a Program can be composed of one **entry module** and many **nomain module**. Lets add another module to our previous program.
 
 
-## More on compilation
-
-. But there are other ways to accomplish this
-
-CRTPGMMOD
-
-CRTPGM

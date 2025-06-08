@@ -1,6 +1,6 @@
 **Free
 ///
-// RPG Module with only 1 procedure, no main.
+// RPG Module with only 1 export procedure, no main.
 ///
 Ctl-opt NoMain;
 

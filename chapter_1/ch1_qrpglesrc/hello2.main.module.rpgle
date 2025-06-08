@@ -1,6 +1,6 @@
 **Free
 ///
-// RPG Module with only 1 procedure, which is also the main
+// RPG Module with only 1 prototyped procedure, which is also the main
 ///
 Ctl-opt main(main);
 
