@@ -153,6 +153,10 @@ Set up your PUB400 current library (It will be used to store the compiled object
 
 # Chapters
 
+- [Chaper 1: Programs and Modules](./chapter_1/chapter_1.md)
+- [Chaper 2: Service Program](./chapter_2/chapter_2.md)
+
+# Extra 
 
 To have each chapter as an IBM Project that can be deployed to PUB400 individually just run the `setup_workspace.sh` script like this
 
@@ -160,5 +164,3 @@ To have each chapter as an IBM Project that can be deployed to PUB400 individual
 chmod +x ./setup_workspace.sh # Give execution permission
 ./setup_workspace.sh # Execute
 ```
-
-- [Chaper 1: Programs and Modules](./chapter_1/chapter_1.md)
