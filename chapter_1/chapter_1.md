@@ -343,6 +343,10 @@ The OS searches for the symbol (even on system modules) but cannt find it. Why?
 
 If you do **OP 5** on the `HELLO2NENT` module and hit `enter` + `enter`. We can see that the `hello` procedure is not in the export list, that means that it is not exposed by the module on it's **exported** symbol list so when the compiler does the binding it can not find the symbol `hello` from the **entry module** and an error occurs. 
 
+<div style="text-align: center;">
+  <img src="../images/chapter_1/no_symbols_exported.png" alt="no_symbols_exported" style="display: inline-block;">
+</div>
+
 In this way, a **nomain module** needs to **export** its procedures for them to be called from outside the module. For that, only add the **export** keyword next to the procudere name like the [Hello 2 nomain module with export](./ch1_qrpglesrc/hello2.nomain.module.rpgle#L7). This will put the procedure `hello` on the modules's exported symbols table for the compiler to look it up. The compiler will match this symbol against the `hello` prototype we defined in the [Hello 2 entry module with prototype](./ch1_qrpglesrc/hello2.main.module.rpgle#L7). If both of them match, the compiler is very happy, otherwise, it may be very angry and won't let you compile.
 
 ```js
