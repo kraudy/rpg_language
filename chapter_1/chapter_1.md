@@ -271,9 +271,9 @@ Uoh, an error
 
 A programs is intended to be executed, for that, it needs an **entry point** where execution begins. With parameter `ENTMOD(*CURLIB/HELLO1)`, we are telling the OS that the module has an **entry point** and it does not. The error makes sense.
 
-Lets make some changes, create an **entry module** [Hello 2 entry module](./ch1_qrpglesrc/hello2.main.noproto.module.rpgle) that will call the `hello` procedure from the **nomain module** [Hello 2 nomain module](./ch1_qrpglesrc/hello2.nomain.module.rpgle)
+Lets make some changes, create an **entry module** [Hello 2 entry module](./ch1_qrpglesrc/hello2.main.noproto.module.rpgle) that will call the `hello` procedure from the **nomain module** [Hello 2 nomain module](./ch1_qrpglesrc/hello2.nomain.noexport.module.rpgle)
 
-Compile the hello entry module.
+Compile the hello 2 entry module which only calls the `hello` procedure.
 
 ```js
 CRTRPGMOD MODULE(*CURLIB/HELLO2) 
@@ -289,14 +289,14 @@ An error, we are calling the procedure `hello()` at [Hello entry module line 12]
 
 We need to tell the compiler that this procedure is not in the same module and describe the interface to call it. For that, we need the procedure's **prototype**. 
 
-The `hello` procedure of [Hello 2 nomain module](./ch1_qrpglesrc/hello2.nomain.module.rpgle#7) is very simple, it takes no parameters and also returns none. So the prototype should be like this.
+The `hello` procedure of [Hello 2 nomain module](./ch1_qrpglesrc/hello2.nomain.noexport.module.rpgle#7) is very simple, it takes no parameters and also returns none. So the prototype on the **entry module** should be like this.
 
 ```js
-Dcl-pr hello extproc;
+Dcl-pr hello;
 End-pr;
 ```
 
-Try again with the [Hello 2 entry module with prototype](./ch1_qrpglesrc/hello2.main.module.rpgle).
+Try again with the [Hello 2 entry module with prototype](./ch1_qrpglesrc/hello2.main.module.rpgle#L7).
 ```js
 CRTRPGMOD MODULE(*CURLIB/HELLO2) 
 SRCSTMF('chapter_1/ch1_qrpglesrc/hello2.main.module.rpgle') 
@@ -312,7 +312,7 @@ Good, the **entry module** compiled with no more symbol error. Now, lets try com
 
 ```js
 CRTRPGMOD MODULE(*CURLIB/HELLO2NENT) 
-SRCSTMF('chapter_1/ch1_qrpglesrc/hello2.nomain.module.rpgle') 
+SRCSTMF('chapter_1/ch1_qrpglesrc/hello2.nomain.noexport.module.rpgle') 
 OPTION(*EVENTF) DBGVIEW(*SOURCE) TGTCCSID(*JOB)
 ```
 
@@ -325,17 +325,39 @@ Compilation is ok so far.
   <img src="../images/chapter_1/show_two_hello_modules.png" alt="show_two_hello_modules" style="display: inline-block;">
 </div>
 
-MAKE PGM WITH THIS NO EXPORT TO SHOUW THE SYMBOL SEARCH ERROR
+There we have them both. Time to create the program from these two modules.
+```js
+CRTPGM PGM(*CURLIB/HELLO2) MODULE(*CURLIB/HELLO2 *CURLIB/HELLO2NENT)
+ENTMOD(*CURLIB/HELLO2) DETAIL(*FULL)
+```
 
-There we have them both. Here is an important thing, noticed the [**export**](./ch1_qrpglesrc/hello2.nomain.module.rpgle#L7) next to the `hello` procdure? Well, that tells the compiler that this procedure must be exposed to be accesed from outside the module and it will be match agains the `hello` prototype we defined [**in the entry module**](./ch1_qrpglesrc/hello2.main.module.rpgle#L7). Do **OP 5** + `enter` + `enter` on the `HELLO2NENT` module to see the exported procedures.
+We told the compiler the symbol (procedure) for `hello` is outside of the **entry** module
+<div style="text-align: center;">
+  <img src="../images/chapter_1/symbol_not_found.png" alt="symbol_not_found" style="display: inline-block;">
+</div>
+
+The OS searches for the symbol (even on system modules) but cannt find it. Why?
+<div style="text-align: center;">
+  <img src="../images/chapter_1/symol_search.png" alt="symol_search" style="display: inline-block;">
+</div>
+
+If you do **OP 5** on the `HELLO2NENT` module and hit `enter` + `enter`. We can see that the `hello` procedure is not in the export list, that means that it is not exposed by the module on it's **exported** symbol list so when the compiler does the binding it can not find the symbol `hello` from the **entry module** and an error occurs. 
+
+In this way, a **nomain module** needs to **export** its procedures for them to be called from outside the module. For that, only add the **export** keyword next to the procudere name like the [Hello 2 nomain module with export](./ch1_qrpglesrc/hello2.nomain.module.rpgle#L7). This will put the procedure `hello` on the modules's exported symbols table for the compiler to look it up. The compiler will match this symbol against the `hello` prototype we defined in the [Hello 2 entry module with prototype](./ch1_qrpglesrc/hello2.main.module.rpgle#L7). If both of them match, the compiler is very happy, otherwise, it may be very angry and won't let you compile.
+
+```js
+CRTRPGMOD MODULE(*CURLIB/HELLO2NENT) 
+SRCSTMF('chapter_1/ch1_qrpglesrc/hello2.nomain.module.rpgle') 
+OPTION(*EVENTF) DBGVIEW(*SOURCE) TGTCCSID(*JOB)
+```
+
+After compilation, do **OP 5** + `enter` + `enter` on the `HELLO2NENT` module to see the exported procedures.
 
 <div style="text-align: center;">
   <img src="../images/chapter_1/exported_procedures.png" alt="exported_procedures" style="display: inline-block;">
 </div>
 
-You can't do `CALL` on any of these objects because they are of type **Module**, try `CALL PGM(*CURLIB/HELLO2)`. 
-
-Create the executable program similar to how we did before but now with the two modules.
+Again, lets create the program from the two modules.
 
 ```js
 CRTPGM PGM(*CURLIB/HELLO2) MODULE(*CURLIB/HELLO2 *CURLIB/HELLO2NENT)
@@ -345,7 +367,7 @@ ENTMOD(*CURLIB/HELLO2) DETAIL(*FULL)
   <img src="../images/chapter_1/program_from_modules.png" alt="program_from_modules" style="display: inline-block;">
 </div>
 
-Now, do the `CALL PGM(*CURLIB/HELLO2)` and you should see the hello world.
+Finally! do the `CALL PGM(*CURLIB/HELLO2)` and you should see the hello world.
 
 do the display from a procedure `do_hello` 
 
