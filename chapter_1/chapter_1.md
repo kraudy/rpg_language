@@ -1,5 +1,13 @@
 # Chapter one: Programs and Modules
 
+# Content
+
+- [Hello world](#hello-world)
+- [Compilation](#compilation)
+- [Run it](#run-it)
+- [Entry Module](#entry-module)
+- [NoMain Module](#nomain-module)
+- [Another NoMain Module](#another-nomain-module)
 
 ## Hello world
 
@@ -375,6 +383,49 @@ Finally! do the `CALL PGM(*CURLIB/HELLO2)` and you should see the hello world.
 
 ## Another NoMain Module
 
-As we've already seen, a Program can be composed of one **entry module** and many **nomain module**. Lets add another module to our previous program.
+As we've already seen, a Program can be composed of one **entry module** and many **nomain module**. Lets add the module [Bye World](./ch1_qrpglesrc/bye.nomain.module.rpgle#L7) to our previous program.
 
+Compilie it with
 
+```js
+CRTRPGMOD MODULE(*CURLIB/HELLO2BYE) 
+SRCSTMF('chapter_1/ch1_qrpglesrc/bye.nomain.module.rpgle') 
+OPTION(*EVENTF) DBGVIEW(*SOURCE) TGTCCSID(*JOB)
+```
+
+<div style="text-align: center;">
+  <img src="../images/chapter_1/compiled_bye.png" alt="compiled_bye" style="display: inline-block;">
+</div>
+
+No need to compile again the [Hello 2 nomain module with export](./ch1_qrpglesrc/hello2.nomain.module.rpgle#L7)
+
+Compile the **entry module** [Hello 3 entry module with 2 prototypes](./ch1_qrpglesrc/hello3.main.module.rpgle#L7)
+
+```js
+CRTRPGMOD MODULE(*CURLIB/HELLO2) 
+SRCSTMF('chapter_1/ch1_qrpglesrc/hello3.main.module.rpgle') 
+OPTION(*EVENTF) DBGVIEW(*SOURCE) TGTCCSID(*JOB)
+```
+
+Now, compile the program
+
+```js
+CRTPGM PGM(*CURLIB/HELLO3) 
+MODULE(*CURLIB/HELLO2 *CURLIB/HELLO2NENT *CURLIB/HELLO2BYE)
+ENTMOD(*CURLIB/HELLO2) DETAIL(*FULL)
+```
+
+The program compiled with three modules, one main and two nomain
+<div style="text-align: center;">
+  <img src="../images/chapter_1/program_with_3modules.png" alt="program_with_3modules" style="display: inline-block;">
+</div>
+
+There it is! Do **OP 16** or `CALL PGM(*CURLIB/HELLO3)`
+
+<div style="text-align: center;">
+  <img src="../images/chapter_1/bye_world.png" alt="bye_world" style="display: inline-block;">
+</div>
+
+There we have it, `bye world`. That is how we finish this chapter.
+
+Next [Chapter 2: Service Programs](../chapter_2/chapter_2.md)
