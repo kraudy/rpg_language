@@ -155,6 +155,7 @@ Set up your PUB400 current library (It will be used to store the compiled object
 
 - [Chaper 1: Programs and Modules](./chapter_1/chapter_1.md)
 - [Chaper 2: Service Program](./chapter_2/chapter_2.md)
+- [Chaper 3: Finally, some programming]()
 
 # Extra 
 
