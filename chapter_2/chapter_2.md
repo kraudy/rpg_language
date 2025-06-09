@@ -29,6 +29,8 @@ EXPORT(*ALL)
   <img src="../images/chapter_2/created_srvpgmhello.png" alt="created_srvpgmhello" style="display: inline-block;">
 </div>
 
+Pay close attention to the `EXPORT(*ALL) ` parameter. This means that all the module's procedures of the service program are to be accesed from outside, something you usually don't want out in the wild. For that reason exists the **binding language** where you can specify which procedures or symbols are to be exposed and what should not, similar to an API; in fact, a service programs can be used to expose a JSON REST API, but that's a topic for another time.
+
 Do **OP 5** + `enter` + `enter` on the created **Service Program** 
 <div style="text-align: center;">
   <img src="../images/chapter_2/modules_inside_srvpgm.png" alt="modules_inside_srvpgm" style="display: inline-block;">
@@ -116,7 +118,14 @@ DETAIL(*FULL)
   <img src="../images/chapter_2/pgm_from_bnddir.png" alt="pgm_from_bnddir" style="display: inline-block;">
 </div>
 
+Call it normally `CALL PGM(*CURLIB/HELLO4)`
 
 ## Service Program from Binding Language
 
-The previous way expose all the modules procedures to be accesed from outside, usually you don't want that since there are procedures that are only need by the module so they should not be accesible from outside
+The previous way expose all the modules procedures to be accesed from outside, usually you don't want that since there are procedures that are only need by the module. This is something we hinted alread with the `EXPORT(*ALL)` parameter.
+
+To define which procedures are to be accesed from outside the service program we will use the **binding language**. It is like a list of procedures names to be exposed, noting fancy. It can be created manually but there is also a command that can help us.
+
+```js
+
+```
