@@ -62,6 +62,61 @@ Do **OP 5** on `HELLO4` + `enter` + `enter` + `enter` and there we have the serv
   <img src="../images/chapter_2/srvpgm_inside_pgm.png" alt="srvpgm_inside_pgm" style="display: inline-block;">
 </div>
 
+Look at the service program **signature**, that will be important later. 
+
+Now, delete the service program `SRVHELLO`, end your session with `SIGNOFF ENDCNN(*YES)` and log in again. 
+
+This is needed because if `HELLO4` was called previously, it **activated** the `SRVHELLO` and even if you delete the service program, it may still be stored in the job's memory space, so it may still execute normally.
+
+Call the `HELLO4` program again `CALL PGM(*CURLIB/HELLO4)`. 
+
+<div style="text-align: center;">
+  <img src="../images/chapter_2/srvpgm_notfound.png" alt="srvpgm_notfound" style="display: inline-block;">
+</div>
+
+A service program not found error occurs. Why? A link to the service program is created in the program at compilation time to be resolved at **activation** for the program to dynamically execute the procedure, which is what we want. This way avoids having to burn the modules inside the program like in the old times.
+
+Create the service program again like before.
+```js
+CRTSRVPGM SRVPGM(SRVHELLO)                            
+MODULE(*CURLIB/HELLO2NENT *CURLIB/HELLO2BYE)
+EXPORT(*ALL)                                
+```
+
+This is the base of modern ILE developments. A modern program can use many service programs; for that, there is an object called **Binding Directory** 
+
+## Service Programs with Binding Directories.
+
+We just have to put the service program into an object called **Binding Directory** which basically stores a list of service programs and tell the compiler where it is located.
+
+Create the binding directory
+```js
+CRTBNDDIR BNDDIR(BNDHELLO)
+```
+<div style="text-align: center;">
+  <img src="../images/chapter_2/create_bnddir.png" alt="create_bnddir" style="display: inline-block;">
+</div>
+
+Add the service program to it
+```js
+ADDBNDDIRE BNDDIR(*CURLIB/BNDHELLO)
+OBJ((*LIBL/SRVHELLO))
+```
+<div style="text-align: center;">
+  <img src="../images/chapter_2/bnd_entry_added.png" alt="bnd_entry_added" style="display: inline-block;">
+</div>
+
+Compiling the program is similar; instead of specifying the service program, just indicate the binding directory.
+```js
+CRTPGM PGM(*CURLIB/HELLO5) MODULE(*CURLIB/HELLO2)  
+ENTMOD(*CURLIB/HELLO2) BNDDIR(*CURLIB/BNDHELLO)
+DETAIL(*FULL)           
+```
+<div style="text-align: center;">
+  <img src="../images/chapter_2/pgm_from_bnddir.png" alt="pgm_from_bnddir" style="display: inline-block;">
+</div>
+
+
 ## Service Program from Binding Language
 
 The previous way expose all the modules procedures to be accesed from outside, usually you don't want that since there are procedures that are only need by the module so they should not be accesible from outside
