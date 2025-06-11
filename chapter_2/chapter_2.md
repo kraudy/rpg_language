@@ -117,11 +117,18 @@ SRCSTMF('chapter_2/qsrvsrc/srvhello.bnd')
   <img src="../images/chapter_2/srvpgm_from_bnd.png" alt="srvpgm_from_bnd" style="display: inline-block;">
 </div>
 
+Create the program the same way as before.
+```js
+CRTPGM PGM(*CURLIB/HELLO4)        
+MODULE(*CURLIB/HELLO2) ENTMOD(*CURLIB/HELLO2)     
+BNDSRVPGM((*LIBL/SRVHELLO)) DETAIL(*FULL)              
+```
+
 A modern program can use many service programs; for that, there is an object called **Binding Directory** 
 
 ## Service Programs with Binding Directories.
 
-We just have to put the service program into an object called **Binding Directory** which basically stores a list of service programs and tell the compiler where it is located.
+A **Binding Directory** is an object which basically stores a list of linkers or pointers to service programs for the compiler to look them up when creating the program.
 
 Create the binding directory
 ```js
@@ -150,10 +157,23 @@ DETAIL(*FULL)
   <img src="../images/chapter_2/pgm_from_bnddir.png" alt="pgm_from_bnddir" style="display: inline-block;">
 </div>
 
-Call it normally `CALL PGM(*CURLIB/HELLO4)`
+Call it normally `CALL PGM(*CURLIB/HELLO5)`
 
-Create it like the first time
+## Program from Binding Directories.
+
+This is the modern way of creating programs: Create the modules, extract the exported list of symbols with `rtvbndsrc` or manually, use it to crate the service program and add it to a binding directory. Then create the program that uses the service program referencing only the binding directory.
+
+This is the [Modern RPG program](./qrpglesrc/hello5.pgm.rpgle). Note the [Binding Directory](./qrpglesrc/hello5.pgm.rpgle#L5).
+
+For compilation just do `Ctrl + e` from VsCode or deploy it with `Ctrl + Shift + e` and compile with this command
+
 ```js
-CRTBNDRPG
+CRTBNDRPG PGM(*CURLIB/hello5) 
+SRCSTMF('chapter_2/qrpglesrc/hello5.pgm.rpgle') 
+OPTION(*EVENTF) DBGVIEW(*SOURCE) TGTCCSID(*JOB)
 ```
+<div style="text-align: center;">
+  <img src="../images/chapter_2/pgm_from_crtbndrpg.png" alt="pgm_from_crtbndrpg" style="display: inline-block;">
+</div>
 
+This is the modern compilation way and is what we'll be using from now on.
