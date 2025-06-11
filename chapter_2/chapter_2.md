@@ -92,10 +92,26 @@ This is the base of modern ILE developments.
 
 The previous way expose all the modules procedures to be accesed from outside, usually you don't want that since there are procedures that are only need by the module. This is something we hinted alread with the `EXPORT(*ALL)` parameter.
 
-To define which procedures are to be accesed from outside the service program we will use the **binding language**. It is like a list of procedures names to be exposed, noting fancy. It can be created manually but there is also a command that can help us.
+To define which procedures are to be accesed from outside the service program we will use the **binding language**. It is like a list of procedures names to be exposed, nothing fancy. It can be created manually but there is also a command that can help us.
 
 ```js
+RTVBNDSRC MODULE(*CURLIB/HELLO2NENT *CURLIB/HELLO2BYE)
+SRCFILE(*CURLIB/QSRVSRC)                    
+```
+<div style="text-align: center;">
+  <img src="../images/chapter_2/rtvbndsrc.png" alt="rtvbndsrc" style="display: inline-block;">
+</div>
 
+Go to `QSRVSRC` source PF
+<div style="text-align: center;">
+  <img src="../images/chapter_2/list_of_symbols.png" alt="list_of_symbols" style="display: inline-block;">
+</div>
+
+TODO: Fix this
+```js
+CRTSRVPGM SRVPGM(SRVHELLO)                            
+MODULE(*CURLIB/HELLO2NENT *CURLIB/HELLO2BYE)
+EXPORT(*ALL)   
 ```
 
 A modern program can use many service programs; for that, there is an object called **Binding Directory** 
