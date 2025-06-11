@@ -1,0 +1,4 @@
+STRPGMEXP PGMLVL(*CURRENT)                                            
+  EXPORT SYMBOL("HELLO")                                              
+  EXPORT SYMBOL("BYE")                                                
+ENDPGMEXP                                                             

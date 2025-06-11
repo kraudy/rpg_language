@@ -102,17 +102,20 @@ SRCFILE(*CURLIB/QSRVSRC)
   <img src="../images/chapter_2/rtvbndsrc.png" alt="rtvbndsrc" style="display: inline-block;">
 </div>
 
-Go to `QSRVSRC` source PF
+Go to `QSRVSRC` source PF `WRKMBRPDM FILE(*CURLIB/QSRVSRC) MBR(*ALL)` to see the list of symbols.
 <div style="text-align: center;">
   <img src="../images/chapter_2/list_of_symbols.png" alt="list_of_symbols" style="display: inline-block;">
 </div>
 
-TODO: Fix this
+Create the service program from the binding language
 ```js
 CRTSRVPGM SRVPGM(SRVHELLO)                            
 MODULE(*CURLIB/HELLO2NENT *CURLIB/HELLO2BYE)
-EXPORT(*ALL)   
+SRCSTMF('chapter_2/qsrvsrc/srvhello.bnd')    
 ```
+<div style="text-align: center;">
+  <img src="../images/chapter_2/srvpgm_from_bnd.png" alt="srvpgm_from_bnd" style="display: inline-block;">
+</div>
 
 A modern program can use many service programs; for that, there is an object called **Binding Directory** 
 
