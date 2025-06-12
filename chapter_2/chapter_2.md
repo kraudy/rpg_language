@@ -9,9 +9,11 @@ In this way, programs that need to call a procedure from a module simply store a
 This avoids the problem of recompiling every program; only the module and the service program need to be recompiled.
 
 ## Content
-- []()
-- []()
-- []()
+
+- [Modules to Service Program](#modules-to-service-program)
+- [Service Program from Binding Language](#service-program-from-binding-language)
+- [Service Programs with Binding Directories](#service-programs-with-binding-directories)
+- [Program from Binding Directories](#program-from-binding-directories)
 
 ## Modules to Service Program
 
