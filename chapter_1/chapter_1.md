@@ -11,7 +11,7 @@
 
 ## Hello world
 
-Remember that RPG is a procedural language and its modern syntax is similar to C but it does not use brackets `{}`. Our first program is a [simple hello world](./ch1_qrpglesrc/hello1.pgm.rpgle).
+Remember that RPG is a procedural language and its modern syntax is similar to C but it does not use brackets `{}`. Our first program is a [simple hello world](./qrpglesrc/hello1.pgm.rpgle).
 
 ```js
 **Free
@@ -33,25 +33,25 @@ End-proc;
 
 Let's go line by line of the simple hello world program. 
 
-[First line](./ch1_qrpglesrc/hello1.pgm.rpgle#L1) of this code is `**Free`, which tells the RPG compiler that the source code is fully free (not half columnar and half free. Fully modern code for winners). 
+[First line](./qrpglesrc/hello1.pgm.rpgle#L1) of this code is `**Free`, which tells the RPG compiler that the source code is fully free (not half columnar and half free. Fully modern code for winners). 
 
-[Line 5](./ch1_qrpglesrc/hello1.pgm.rpgle#L5) `Ctl-opt DftActGrp(*no) main(main)` is the compilation specification for this program defined by the `Ctl-opt` keyword. `DftActGrp(*no)` means that this program should not be **activated** or **loaded** in the default **activation group** or **job memory space** which is where the legacy **OPM** programs were **activated**.
+[Line 5](./qrpglesrc/hello1.pgm.rpgle#L5) `Ctl-opt DftActGrp(*no) main(main)` is the compilation specification for this program defined by the `Ctl-opt` keyword. `DftActGrp(*no)` means that this program should not be **activated** or **loaded** in the default **activation group** or **job memory space** which is where the legacy **OPM** programs were **activated**.
 
-`main(main)` defines which procedure is the main **entry point** of this program, this is similar to **C** `main` function. Defining a main procedure like this in the compilation specifications excludes the use of the famous **RPG Cycle**. If you want to see a modern example that still uses the **RPG Cycle** check [hello1.cycle](./ch1_qrpglesrc/hello1.cycle.pgm.rpgle)
+`main(main)` defines which procedure is the main **entry point** of this program, this is similar to **C** `main` function. Defining a main procedure like this in the compilation specifications excludes the use of the famous **RPG Cycle**. If you want to see a modern example that still uses the **RPG Cycle** check [hello1.cycle](./qrpglesrc/hello1.cycle.pgm.rpgle)
 
-[Line 7](./ch1_qrpglesrc/hello1.pgm.rpgle#L7) defines the procedure **main** with the keyword `Dcl-proc` and `end-proc` along with an interface `Dcl-pi *n int end-pi` that specifies what parameters this procedure accepts and returns. In this case it receives nothing and returns nothing. 
+[Line 7](./qrpglesrc/hello1.pgm.rpgle#L7) defines the procedure **main** with the keyword `Dcl-proc` and `end-proc` along with an interface `Dcl-pi *n int end-pi` that specifies what parameters this procedure accepts and returns. In this case it receives nothing and returns nothing. 
 
-[Line 11](./ch1_qrpglesrc/hello1.pgm.rpgle#L11) does a simple screen display (which is actually a **joblog** write that you can check with `dspjoblog`)
+[Line 11](./qrpglesrc/hello1.pgm.rpgle#L11) does a simple screen display (which is actually a **joblog** write that you can check with `dspjoblog`)
 
 > More about program **activation** and **execution** at [The IBM intro repo: Program execution](https://github.com/kraudy/ibmi_os?tab=readme-ov-file#program-execution).
 
-[Line 13](./ch1_qrpglesrc/hello1.pgm.rpgle#L11) does a simple screen display (which is actually a **joblog** write that you can check with `dspjoblog`)
+[Line 13](./qrpglesrc/hello1.pgm.rpgle#L11) does a simple screen display (which is actually a **joblog** write that you can check with `dspjoblog`)
 
 ## Compilation
 
 At this point you should have done the [project setup](../README.md#set-up) and be connected to PUB400.
 
-Go to the [simple hello world](./ch1_qrpglesrc/hello1.pgm.rpgle) file, hit **Ctrl + e** and select **Create RPGLE Program**. This is the straigth up way of compiling a bind RPG program.
+Go to the [simple hello world](./qrpglesrc/hello1.pgm.rpgle) file, hit **Ctrl + e** and select **Create RPGLE Program**. This is the straigth up way of compiling a bind RPG program.
 
 <div style="text-align: center;">
   <img src="../images/chapter_1/compile_it.png" alt="compile it" style="display: inline-block;">
@@ -130,7 +130,7 @@ Expand the command input space doing a `call qcmd`
   <img src="../images/chapter_1/call_qcmd.png" alt="crcall_qcmdtbndrpg" style="display: inline-block;">
 </div>
 
-Similar to the `CALL`, compilation can be executed manually. The full qualified path `/home/YourUser/builds/rpg_language/chapter_1/ch1_qrpglesrc/hello1.main.module.rpgle` may be too long, so, change the working directory with `CHGCURDIR DIR('/home/YourUser/builds/rpg_language')`.
+Similar to the `CALL`, compilation can be executed manually. The full qualified path `/home/YourUser/builds/rpg_language/chapter_1/qrpglesrc/hello1.main.module.rpgle` may be too long, so, change the working directory with `CHGCURDIR DIR('/home/YourUser/builds/rpg_language')`.
 <div style="text-align: center;">
   <img src="../images/chapter_1/chgcurdir.png" alt="chgcurdir" style="display: inline-block;">
 </div>
@@ -143,7 +143,7 @@ Make sure you have the rigth cur lib with `chgcurlib` which will be placed in th
 Before compiling make sure the source code is uploaded from your machine to PUB400 IFS using **Ctrl + shift + e**
 ```js
 CRTBNDRPG PGM(*CURLIB/hello1) 
-SRCSTMF('chapter_1/ch1_qrpglesrc/hello1.pgm.rpgle') 
+SRCSTMF('chapter_1/qrpglesrc/hello1.pgm.rpgle') 
 OPTION(*EVENTF) DBGVIEW(*SOURCE) TGTCCSID(*JOB)
 ```
 
@@ -193,11 +193,11 @@ So, a **Pgm** is compose of at least 1 module that has a **program entry**. Lets
 
 > More about program execution here: [IBM i: Program Execution](https://github.com/kraudy/ibmi_os?tab=readme-ov-file#program-execution)
 
-Compiling the [simple hello world](./ch1_qrpglesrc/hello1.pgm.rpgle) as a module with a **program entry**
+Compiling the [simple hello world](./qrpglesrc/hello1.pgm.rpgle) as a module with a **program entry**
 
 ```js
 CRTRPGMOD MODULE(*CURLIB/HELLO1) 
-SRCSTMF('chapter_1/ch1_qrpglesrc/hello1.pgm.rpgle') 
+SRCSTMF('chapter_1/qrpglesrc/hello1.pgm.rpgle') 
 OPTION(*EVENTF) DBGVIEW(*SOURCE) TGTCCSID(*JOB)
 ```
 
@@ -207,10 +207,10 @@ OPTION(*EVENTF) DBGVIEW(*SOURCE) TGTCCSID(*JOB)
 
 Compilation failed, this makes sence since a **Module** can't be executed directly by the OS, so, you can't specify an **activation group** `DftActGrp` `ActGrp` for the module, that is done for the program.
 
-Now, removing the activation specifications and compiling the module again with source [simple hello module](./ch1_qrpglesrc/hello1.main.module.rpgle.rpgle)
+Now, removing the activation specifications and compiling the module again with source [simple hello module](./qrpglesrc/hello1.main.module.rpgle.rpgle)
 ```js
 CRTRPGMOD MODULE(*CURLIB/HELLO1) 
-SRCSTMF('chapter_1/ch1_qrpglesrc/hello1.main.module.rpgle') 
+SRCSTMF('chapter_1/qrpglesrc/hello1.main.module.rpgle') 
 OPTION(*EVENTF) DBGVIEW(*SOURCE) TGTCCSID(*JOB)
 ```
 
@@ -248,7 +248,7 @@ Press `enter` + `enter` to see the compiled module which is inside the program a
 
 A module usually has a procedure that is the **entry point** of execution, also called **the main procedure** and all the other procedures are **no main**, which means, those procedures can't be executed directly but can be part of the execution stack initiated by the **main procedure**. 
 
-There are also modules that don't have a **main procedure** or an **entry point**, these are the **NoMain Modules** and can't be used directly to create a program object. Check [Hello nomain module](./ch1_qrpglesrc/hello1.nomain.module.rpgle)
+There are also modules that don't have a **main procedure** or an **entry point**, these are the **NoMain Modules** and can't be used directly to create a program object. Check [Hello nomain module](./qrpglesrc/hello1.nomain.module.rpgle)
 
 Modules are the base for the modern ILE procedure driven modular approach. A program can have 1 or more modules but only one of them is the **entry module** with an **entry poin**. 
 
@@ -257,7 +257,7 @@ The bad thing of creating programs this way is that the compiled modules is kept
 Compile this **nomain module** the same way as the **main module**
 ```js
 CRTRPGMOD MODULE(*CURLIB/HELLO1) 
-SRCSTMF('chapter_1/ch1_qrpglesrc/hello1.nomain.module.rpgle') 
+SRCSTMF('chapter_1/qrpglesrc/hello1.nomain.module.rpgle') 
 OPTION(*EVENTF) DBGVIEW(*SOURCE) TGTCCSID(*JOB)
 ```
 
@@ -279,17 +279,17 @@ Uoh, an error
 
 A programs is intended to be executed, for that, it needs an **entry point** where execution begins. With parameter `ENTMOD(*CURLIB/HELLO1)`, we are telling the OS that the module has an **entry point** and it does not. The error makes sense.
 
-Lets make some changes, create an **entry module** [Hello 2 entry module](./ch1_qrpglesrc/hello2.main.noproto.module.rpgle) that will call the `hello` procedure from the **nomain module** [Hello 2 nomain module](./ch1_qrpglesrc/hello2.nomain.noexport.module.rpgle)
+Lets make some changes, create an **entry module** [Hello 2 entry module](./qrpglesrc/hello2.main.noproto.module.rpgle) that will call the `hello` procedure from the **nomain module** [Hello 2 nomain module](./qrpglesrc/hello2.nomain.noexport.module.rpgle)
 
 Compile the hello 2 entry module which only calls the `hello` procedure.
 
 ```js
 CRTRPGMOD MODULE(*CURLIB/HELLO2) 
-SRCSTMF('chapter_1/ch1_qrpglesrc/hello2.main.noproto.module.rpgle') 
+SRCSTMF('chapter_1/qrpglesrc/hello2.main.noproto.module.rpgle') 
 OPTION(*EVENTF) DBGVIEW(*SOURCE) TGTCCSID(*JOB)
 ```
 
-An error, we are calling the procedure `hello()` at [Hello entry module line 12](./ch1_qrpglesrc/hello2.main.noproto.module.rpgle#L12) and it is not defined inside the module, the compiler raises a not defined exception.
+An error, we are calling the procedure `hello()` at [Hello entry module line 12](./qrpglesrc/hello2.main.noproto.module.rpgle#L12) and it is not defined inside the module, the compiler raises a not defined exception.
 
 <div style="text-align: center;">
   <img src="../images/chapter_1/hello_not_defined.png" alt="hello_not_defined" style="display: inline-block;">
@@ -297,17 +297,17 @@ An error, we are calling the procedure `hello()` at [Hello entry module line 12]
 
 We need to tell the compiler that this procedure is not in the same module and describe the interface to call it. For that, we need the procedure's **prototype**. 
 
-The `hello` procedure of [Hello 2 nomain module](./ch1_qrpglesrc/hello2.nomain.noexport.module.rpgle#7) is very simple, it takes no parameters and also returns none. So the prototype on the **entry module** should be like this.
+The `hello` procedure of [Hello 2 nomain module](./qrpglesrc/hello2.nomain.noexport.module.rpgle#7) is very simple, it takes no parameters and also returns none. So the prototype on the **entry module** should be like this.
 
 ```js
 Dcl-pr hello;
 End-pr;
 ```
 
-Try again with the [Hello 2 entry module with prototype](./ch1_qrpglesrc/hello2.main.module.rpgle#L7).
+Try again with the [Hello 2 entry module with prototype](./qrpglesrc/hello2.main.module.rpgle#L7).
 ```js
 CRTRPGMOD MODULE(*CURLIB/HELLO2) 
-SRCSTMF('chapter_1/ch1_qrpglesrc/hello2.main.module.rpgle') 
+SRCSTMF('chapter_1/qrpglesrc/hello2.main.module.rpgle') 
 OPTION(*EVENTF) DBGVIEW(*SOURCE) TGTCCSID(*JOB)
 ```
 
@@ -320,7 +320,7 @@ Good, the **entry module** compiled with no more symbol error. Now, lets try com
 
 ```js
 CRTRPGMOD MODULE(*CURLIB/HELLO2NENT) 
-SRCSTMF('chapter_1/ch1_qrpglesrc/hello2.nomain.noexport.module.rpgle') 
+SRCSTMF('chapter_1/qrpglesrc/hello2.nomain.noexport.module.rpgle') 
 OPTION(*EVENTF) DBGVIEW(*SOURCE) TGTCCSID(*JOB)
 ```
 
@@ -355,11 +355,11 @@ If you do **OP 5** on the `HELLO2NENT` module and hit `enter` + `enter`. We can 
   <img src="../images/chapter_1/no_symbols_exported.png" alt="no_symbols_exported" style="display: inline-block;">
 </div>
 
-In this way, a **nomain module** needs to **export** its procedures for them to be called from outside the module. For that, only add the **export** keyword next to the procudere name like the [Hello 2 nomain module with export](./ch1_qrpglesrc/hello2.nomain.module.rpgle#L7). This will put the procedure `hello` on the modules's exported symbols table for the compiler to look it up. The compiler will match this symbol against the `hello` prototype we defined in the [Hello 2 entry module with prototype](./ch1_qrpglesrc/hello2.main.module.rpgle#L7). If both of them match, the compiler is very happy, otherwise, it may be very angry and won't let you compile.
+In this way, a **nomain module** needs to **export** its procedures for them to be called from outside the module. For that, only add the **export** keyword next to the procudere name like the [Hello 2 nomain module with export](./qrpglesrc/hello2.nomain.module.rpgle#L7). This will put the procedure `hello` on the modules's exported symbols table for the compiler to look it up. The compiler will match this symbol against the `hello` prototype we defined in the [Hello 2 entry module with prototype](./qrpglesrc/hello2.main.module.rpgle#L7). If both of them match, the compiler is very happy, otherwise, it may be very angry and won't let you compile.
 
 ```js
 CRTRPGMOD MODULE(*CURLIB/HELLO2NENT) 
-SRCSTMF('chapter_1/ch1_qrpglesrc/hello2.nomain.module.rpgle') 
+SRCSTMF('chapter_1/qrpglesrc/hello2.nomain.module.rpgle') 
 OPTION(*EVENTF) DBGVIEW(*SOURCE) TGTCCSID(*JOB)
 ```
 
@@ -383,13 +383,13 @@ Finally! do the `CALL PGM(*CURLIB/HELLO2)` and you should see the hello world.
 
 ## Another NoMain Module
 
-As we've already seen, a Program can be composed of one **entry module** and many **nomain module**. Lets add the module [Bye World](./ch1_qrpglesrc/bye.nomain.module.rpgle#L7) to our previous program.
+As we've already seen, a Program can be composed of one **entry module** and many **nomain module**. Lets add the module [Bye World](./qrpglesrc/bye.nomain.module.rpgle#L7) to our previous program.
 
 Compilie it with
 
 ```js
 CRTRPGMOD MODULE(*CURLIB/HELLO2BYE) 
-SRCSTMF('chapter_1/ch1_qrpglesrc/bye.nomain.module.rpgle') 
+SRCSTMF('chapter_1/qrpglesrc/bye.nomain.module.rpgle') 
 OPTION(*EVENTF) DBGVIEW(*SOURCE) TGTCCSID(*JOB)
 ```
 
@@ -397,13 +397,13 @@ OPTION(*EVENTF) DBGVIEW(*SOURCE) TGTCCSID(*JOB)
   <img src="../images/chapter_1/compiled_bye.png" alt="compiled_bye" style="display: inline-block;">
 </div>
 
-No need to compile again the [Hello 2 nomain module with export](./ch1_qrpglesrc/hello2.nomain.module.rpgle#L7)
+No need to compile again the [Hello 2 nomain module with export](./qrpglesrc/hello2.nomain.module.rpgle#L7)
 
-Compile the **entry module** [Hello 3 entry module with 2 prototypes](./ch1_qrpglesrc/hello3.main.module.rpgle#L7)
+Compile the **entry module** [Hello 3 entry module with 2 prototypes](./qrpglesrc/hello3.main.module.rpgle#L7)
 
 ```js
 CRTRPGMOD MODULE(*CURLIB/HELLO2) 
-SRCSTMF('chapter_1/ch1_qrpglesrc/hello3.main.module.rpgle') 
+SRCSTMF('chapter_1/qrpglesrc/hello3.main.module.rpgle') 
 OPTION(*EVENTF) DBGVIEW(*SOURCE) TGTCCSID(*JOB)
 ```
 
