@@ -38,13 +38,15 @@ This was the idea: You have a file with client information that needs to be proc
 
 > This logic was known as the **RPG Cycle**. This idea comes from the [FARGO (programming language)](https://en.wikipedia.org/wiki/FARGO_(programming_language)) and the [Tabulating machine](https://en.wikipedia.org/wiki/Tabulating_machine)
 
-Sounds simple, but here is the thing. RPG came after the world of assembler; programmers were used to assembly code. So, when a new higher-level language was needed, they decided, Ok, let's make a better assembly. Thinking this way, the syntax of the new language was similar to assembly; you have the operation on the left and the operand on the right, all in a column fashion. This is known as **columnar** RPG and is the legacy RPG syntax. Most of the RPG source code is still written in columnar RPG and the new developments are done (or should be done) in modern **free** RPG, which uses a syntax more common to modern developers that is similar to the C language.
+Sounds simple, but here is the thing. RPG came after the world of assembler; programmers were used to assembly code. So, when a new higher-level language was needed, they decided: "Ok, let's make a better assembly". 
+
+Thinking this way, the syntax of the new language was similar to assembly; you have the operation on the left and the operand on the right, all in a **columnar** fashion. This is known as **columnar** RPG and is the legacy RPG syntax. Most of the RPG source code is still written in columnar RPG and the new developments are done (or should be done) in modern **free** RPG, which uses a syntax more common to modern developers that is similar to the C language.
 
 # Environment
 
 ## OPM
 
-The legacy RPG programming was not only columnar, it also included the environmente where it was programmed. 
+The legacy RPG programming was not only columnar, it also included the environment where it was programmed. 
 
 There were no local variables and functions; everything was global variables and something called **subroutines,** which are not really functions; they are more similar to defined **tags** where the execution logic can do a **GOTO** to jump in, and after finishing it jumps back to where it was. 
 
@@ -56,39 +58,39 @@ This environment was called **OPM (Original Program Model)**. As you may tell, t
 
 ## ILE
 
-As complexity increased, a way to tackle it was needed. Modularization was the chosen way. 
+As complexity increased, a way to tackle it was needed. Modularization was the chosen way by IBM. 
 
-Take that monolithic 10 thousand line program and divide it into logical units of execution called **functions**, which have their own context local variables that are created when the function executes and deleted after it finishes (pops up from the stack).
+Take that monolithic 10 thousand line program and divide it into logical units of execution called **procedures/functions**, which have their own context local variables that are created when the procedure is executed and deleted after it finishes (pops up from the stack).
 
-In this way, a monolithic program can be divided into a series of functions. Furthermore, these functions can be grouped together into their own object called **MODULE** so that a program **PGM** can be formed of one or more modules, which in turn are formed from one or more functions that are logically related. 
+In this way, a monolithic program can be divided into a series of procedures. Furthermore, these procedures can be grouped together into their own object called **MODULE**. A program **PGM** can be formed of one or more modules, which in turn are formed from one or more procedures that are logically related. 
 
 This mindset helped encapsulate business logic into some containerized context, which helps a lot when dealing with complexity on large code base systems. 
 
 Some of that business logic may be needed by other programs. So, since we already have it compartmentalized on this **MODULE** object, let's make it available to be used by other programs so we have a central logic and don't do copy-paste the same code on every single program (this is something still seen in the wild). That's when the idea of the service program **SRVPGM** began. 
 
-A service program is like a context of context. It has a series of **MODULES** with their corresponding functions that can be used by other programs, hence the name **service** program. 
+A service program is like a context of context. It has a series of **MODULES** with their corresponding procedure that can be used by other programs, hence the name **service program**. 
 
 Service programs and modules are the backbone of the modern development environment called **Integrated Language Environment (ILE)**. This is the environment that we'll be using in this guide.
 
 ## Structure of a RPG program
 
-The **columnar** (legacy) RPG is composed of a series of **specifications**, **pages** or **contexts** which are roughly: 
+The **columnar** (legacy) RPG is composed of a series of **specifications**, **pages** or **contexts** which are roughly the following: 
 
-- Compilation: Input parameters to be used by the compiler.
-- Files: Listed files being written to, read from or updated.
-- Data: Contains global character and numeric variables like data structures, arrays, ints, chars, etc. 
-- Calculations: Operations or executable instructions to be performed. Usually grouped in **subroutines**
-- Output: Report generation or I/O file operations.
+- **Compilation**: Input parameters to be used by the compiler.
+- **Files**: Listed files being written to, read from or updated.
+- **Data**: Contains global character and numeric variables like data structures, arrays, ints, chars, etc. 
+- **Calculations**: Operations or executable instructions to be performed. Usually grouped in **subroutines**
+- **Output**: Report generation or I/O file operations.
 
 A modern RPG, from now on **Free** RPG, does not have these clear specification separations. 
 
 > **Free** means that you are not bound by columns anymore like the old columnar RPG used to be
 
-- Compilation: Kept with the `Ctl-opt` keyword. 
-- File: Kept, kinda. Files can be declared globally or inside a procedure, but it is usual to use embedded SQL to perform file operations on modern **SQLRPGLE** programs.
-- Data: Variables can still be declared globally or locally to procedures. 
-- Calculation: No longer defined and is replaced by procedure driven logic along with local variables. 
-- Output: Very rarely used by hybrid RPG programs (half columnar and half free).
+- **Compilation**: Kept with the `Ctl-opt` keyword. 
+- **File**: Kept, kinda. Files can be declared globally or inside a procedure, but it is usual to use embedded SQL to perform file operations on modern **SQLRPGLE** programs.
+- **Data**: Variables can still be declared globally or locally to procedures. 
+- **Calculations**: No longer defined and is replaced by procedure driven logic along with local variables. 
+- **Output**: Very rarely used by hybrid RPG programs (half columnar and half free).
 
 > Yes, you can use SQL statements along with RPG and move data between RPG host variables and SQL. Really cool stuff.
 
@@ -108,7 +110,7 @@ Since this guide is intended to bring modern developers to IBM, we'll be using W
 
 Here is a good tutorial by **Seiden Group** on [Getting Started with VS Code for IBM i: A Video Series](https://www.seidengroup.com/getting-started-with-vs-code-for-ibm-i-a-video-series/) to get you up and running.
 
-Also check this out: A [modern IBM I Pipeline](https://github.com/kraudy/IBM-i-pipeline).
+Also check this out: [A modern IBM I Pipeline](https://github.com/kraudy/IBM-i-pipeline).
 
 # Set up
 
