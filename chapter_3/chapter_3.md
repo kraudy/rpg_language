@@ -12,6 +12,16 @@ Modern RPG programming is procedure-driven. Each procedure can be seen as a cont
 
 ## Compile objects
 
+Prepare compilation context
+```js
+CHGCURDIR DIR('/home/YourUser/builds/rpg_language')
+```
+```js
+chgcurlib YourLib
+```
+
+Do `Ctrl + Shift + e` to upload source code from the project if you haven't.
+
 Create math Module
 ```js
 CRTRPGMOD MODULE(*CURLIB/MATH) 
@@ -33,7 +43,7 @@ CRTBNDDIR BNDDIR(BNDMATH)
 
 Add service program to binding directory
 ```js
-ADDBNDDIRE BNDDIR(*CURLIB/BNDHELLO)
+ADDBNDDIRE BNDDIR(*CURLIB/BNDMATH)
 OBJ((*LIBL/SRVMATH))
 ```
 
@@ -45,15 +55,15 @@ A program can be viewed as a series of procedures or functions that perform a se
 
 Modern machines are mostly based on the Von Neumann architecture, where data and operations are both stored in memory. This is why the program instructions and data are both loaded from memory to registers to be executed. Instructions and data are not so distinct.
 
-Lests do a simple [square](./qrpglesrc/procs.pgm.rpgle#20) example : `y = x^2`
+Lests do a simple [square](./qrpglesrc/square.pgm.rpgle#13) example : `y = x^2`
 
 ```js
-CRTBNDRPG PGM(*CURLIB/procs) 
-SRCSTMF('chapter_3/qrpglesrc/procs.pgm.rpgle') 
+CRTBNDRPG PGM(*CURLIB/square) 
+SRCSTMF('chapter_3/qrpglesrc/square.pgm.rpgle') 
 OPTION(*EVENTF) DBGVIEW(*SOURCE) TGTCCSID(*JOB)
 ```
 
-Just call it `CALL PGM(*curlib/PROCS) PARM((8))`
+Just call it `CALL PGM(*curlib/square) PARM((8))`
 <div style="text-align: center;">
   <img src="../images/chapter_3/square_output.png" alt="pgm_from_crtbndrpg" style="display: inline-block;">
 </div>
