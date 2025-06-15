@@ -31,6 +31,15 @@ Just call it `CALL PGM(*curlib/PROCS) PARM((8))`
   <img src="../images/chapter_3/square_output.png" alt="pgm_from_crtbndrpg" style="display: inline-block;">
 </div>
 
+Create math Module
+```js
+CRTRPGMOD MODULE(*CURLIB/MATH) 
+SRCSTMF('chapter_3/qrpglesrc/math.module.rpgle')
+OPTION(*EVENTF) DBGVIEW(*SOURCE) TGTCCSID(*JOB)
+```
+
+Create math Service Program
+
 ## Variables
 
 

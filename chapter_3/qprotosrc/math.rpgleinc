@@ -1,0 +1,5 @@
+**Free
+
+dcl-pr square packed(15:5);
+  x packed(15:5) const; 
+end-pr;
