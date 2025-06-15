@@ -10,6 +10,33 @@ Modern RPG programming is procedure-driven. Each procedure can be seen as a cont
 - []()
 - []()
 
+## Compile objects
+
+Create math Module
+```js
+CRTRPGMOD MODULE(*CURLIB/MATH) 
+SRCSTMF('chapter_3/qrpglesrc/math.module.rpgle')
+OPTION(*EVENTF) DBGVIEW(*SOURCE) TGTCCSID(*JOB)
+```
+
+Create Math Service Program
+```js
+CRTSRVPGM SRVPGM(SRVMATH)                            
+MODULE(*CURLIB/MATH)
+SRCSTMF('chapter_3/qsrvsrc/math.bnd')    
+```
+
+Create Bind dir
+```js
+CRTBNDDIR BNDDIR(BNDMATH)
+```
+
+Add service program to binding directory
+```js
+ADDBNDDIRE BNDDIR(*CURLIB/BNDHELLO)
+OBJ((*LIBL/SRVMATH))
+```
+
 ## Procedures
 
 A procedure or function is similar to a mathematical function, hence the same name. It takes some input, `x`, applies some series of operations on the data `f(x)` and produces an output `y`: `y = f(x)`.
@@ -31,14 +58,7 @@ Just call it `CALL PGM(*curlib/PROCS) PARM((8))`
   <img src="../images/chapter_3/square_output.png" alt="pgm_from_crtbndrpg" style="display: inline-block;">
 </div>
 
-Create math Module
-```js
-CRTRPGMOD MODULE(*CURLIB/MATH) 
-SRCSTMF('chapter_3/qrpglesrc/math.module.rpgle')
-OPTION(*EVENTF) DBGVIEW(*SOURCE) TGTCCSID(*JOB)
-```
 
-Create math Service Program
 
 ## Variables
 
