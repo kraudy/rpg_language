@@ -73,6 +73,16 @@ Just call it `CALL PGM(*curlib/square) PARM((8))`
 ## Variables
 
 
+| Opcode | Declaration for |
+|----------|----------|
+| DCL-F   | A file (replacing F spec)     |
+| DCL-S   | A stand-alone field     |
+| DCL-DS    | A data structure     |
+| DCL-C    | A named constant     |
+| DCL-PR  | A prototype     |
+| DCL-PI    | A procedure interface     |
+| DCL-PROC    | A procedure (replacing the P spec)     |
+
 ## Arrays
 
 
