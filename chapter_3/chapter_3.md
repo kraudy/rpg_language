@@ -83,10 +83,75 @@ Just call it `CALL PGM(*curlib/square) PARM((8))`
 | DCL-PI    | A procedure interface     |
 | DCL-PROC    | A procedure (replacing the P spec)     |
 
+```js
+Dcl-S CustName Char(10);
+Dcl-S AcctBalance Packed(5:2);
+Dcl-S Count Packed(3);
+Dcl-S AnotherCount Int(3);
+Dcl-S OrderDate Date(*Iso);
+```
+
 ## Arrays
 
 
 ## Data Structures
 
+```js
+Dcl-DS Address;
+  Street Char(30);
+  City Char(20);
+  State Char(2);
+  ZipCode Zoned(9);
+  Zip Zoned(5) Overlay(ZipCode);
+  ZipPlus Zoned(4) Overlay(ZipCode:5);
+End-DS Address;
+```
 
 ## Control logic
+
+
+
+# Notes on files
+
+**Disk** is the default type for the new **Device** keyword as is “externally described”
+
+```js
+Dcl-F CustMast Device(Disk);
+```
+More examples
+```js
+Device(Printer) Usage(*Output)
+Device(WorkStn) USAGE(*Input: *Output).
+```
+
+Read logic
+
+```js
+Dcl-F DateFile Usage(*Update);
+
+Read DateFile;
+
+DoU %EOF(DateFile);
+  Count+= 1;
+  Test(DE) *CYMD CYMD;
+  If %Error;
+  If newPage;
+  pageNum += 1;
+  Write Heading;
+  newPage = *Off;
+  EndIf;
+
+  Write Detail;
+  Else;
+  // Update record with additional data
+  fullDate = %Date(CYMD: *CYMD);
+  dayName = NameOfDay(fullDate);
+  dayNumber = DayOfWeek(fullDate);
+  Update DateRec;
+
+  EndIf;
+  Read DateFile;
+ EndDo; 
+```
+
+This use: record level access (RLA). SQL use the modern concept of data sets.
