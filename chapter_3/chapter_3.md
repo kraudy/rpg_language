@@ -57,6 +57,8 @@ Modern machines are mostly based on the Von Neumann architecture, where data and
 
 Lests do a simple [square](./qrpglesrc/square.pgm.rpgle#13) example : `y = x^2`
 
+> RPG and COBOL are single-threaded.
+
 ```js
 CRTBNDRPG PGM(*CURLIB/square) 
 SRCSTMF('chapter_3/qrpglesrc/square.pgm.rpgle') 

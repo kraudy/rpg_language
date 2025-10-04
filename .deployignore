@@ -1,1 +1,7 @@
-images/**
+
+*
+
+!chapter_*/
+!chapter_*/*src/
+!chapter_*/*src/*
+
